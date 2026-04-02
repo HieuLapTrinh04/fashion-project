@@ -1,0 +1,110 @@
+<app-header></app-header>
+
+<main class="page-container" style="background-color: #f8fbff; min-height: 80vh; padding: 60px 0;">
+  <div class="container">
+    <div class="text-center mb-5" data-aos="fade-up">
+      <h1 class="display-5 fw-bold text-primary mb-3">Giỏ Hàng Của Bạn</h1>
+      <p class="text-muted">Kiểm tra lại các món đồ hiệu Aura bạn đã chọn trước khi thanh toán.</p>
+    </div>
+
+    <!-- Empty Cart Template -->
+    <div *ngIf="cartItems.length === 0; else cartContent" class="text-center py-5 bg-white aura-card border-0 shadow-sm rounded-4">
+      <div class="py-5">
+        <i class="fa fa-shopping-bag text-muted mb-4" style="font-size: 4rem; opacity: 0.3;"></i>
+        <h3>Giỏ hàng đang trống!</h3>
+        <p class="text-muted mb-4">Có vẻ như bạn chưa chọn được món đồ nào ưng ý.</p>
+        <button btn-aura-primary routerLink="/products" class="btn btn-primary px-5 py-3 rounded-pill fw-bold shadow-sm">
+          Tiếp Tục Mua Sắm
+        </button>
+      </div>
+    </div>
+
+    <!-- Active Cart Content -->
+    <ng-template #cartContent>
+      <div class="row g-4">
+        <!-- Cart Items Table -->
+        <div class="col-lg-8" data-aos="fade-right">
+          <div class="bg-white aura-card border-0 shadow-sm p-4 rounded-4">
+            <div class="table-responsive">
+              <table class="table align-middle">
+                <thead class="bg-light">
+                  <tr class="text-uppercase text-muted small fw-bold">
+                    <th class="border-0 px-4 py-3">Sản Phẩm</th>
+                    <th class="border-0 py-3">Giá</th>
+                    <th class="border-0 py-3">Số Lượng</th>
+                    <th class="border-0 py-3 text-end px-4">Hành Động</th>
+                  </tr>
+                </thead>
+                <tbody class="border-0">
+                  <tr *ngFor="let item of cartItems" class="border-bottom">
+                    <td class="px-4 py-4">
+                      <div class="d-flex align-items-center">
+                        <img [src]="item.image" [alt]="item.name" class="rounded-3 shadow-sm me-3" style="width: 80px; height: 100px; object-fit: cover;">
+                        <div>
+                          <h6 class="mb-0 fw-bold text-dark">{{ item.name }}</h6>
+                          <div class="d-flex gap-2 mt-1">
+                            <span class="badge bg-light text-dark border extra-small px-2 py-1">Size: {{ item.size || 'M' }}</span>
+                            <small class="text-muted extra-small">#AUR-{{item.id}}</small>
+                          </div>
+                        </div>
+
+                      </div>
+                    </td>
+                    <td class="py-4 fw-bold text-primary">
+                      {{ item.price | number:'1.0-0' }} VNĐ
+                    </td>
+                    <td class="py-4">
+                      <input
+                        type="number"
+                        class="form-control bg-light border-0 text-center"
+                        style="width: 70px; border-radius: 8px;"
+                        [value]="item.quantity"
+                        (change)="updateQuantity(item.id, $event)"
+                        min="1"
+                      />
+                    </td>
+                    <td class="py-4 text-end px-4">
+                      <button (click)="removeProductFromCart(item.id)" class="btn btn-link text-danger p-0 border-0">
+                         <i class="fa-solid fa-trash-can"></i>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Summary & Checkout Section -->
+        <div class="col-lg-4" data-aos="fade-left">
+          <div class="bg-white aura-card border-0 shadow-sm p-4 sticky-top rounded-4" style="top: 100px;">
+            <h4 class="fw-bold mb-4 border-bottom pb-3">Tóm Tắt Đơn Hàng</h4>
+            
+            <div class="d-flex justify-content-between mb-3 text-muted">
+              <span>Tạm tính:</span>
+              <span>{{ totalPrice | number: '1.0-0' }} VNĐ</span>
+            </div>
+            <div class="d-flex justify-content-between mb-4 text-muted">
+              <span>Phí vận chuyển:</span>
+              <span class="text-success fw-bold">Miễn phí</span>
+            </div>
+            
+            <hr class="mb-4">
+            
+            <div class="d-flex justify-content-between mb-5 align-items-center">
+              <h5 class="mb-0 fw-bold">Tổng Cộng:</h5>
+              <h4 class="mb-0 text-primary fw-bold" style="font-size: 1.5rem;">{{ totalPrice | number: '1.0-0' }} VNĐ</h4>
+            </div>
+
+            <button (click)="goToCheckout()" class="btn btn-primary w-100 py-3 mb-3 fw-bold rounded-pill shadow-sm" [disabled]="cartItems.length === 0">
+              Tiến Hành Đặt Hàng
+            </button>
+            <p class="text-center text-muted small"><i class="fa fa-info-circle me-1"></i> Thông tin giao hàng sẽ được nhập ở bước tiếp theo.</p>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </div>
+</main>
+
+<app-footer></app-footer>

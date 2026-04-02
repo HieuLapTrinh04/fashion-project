@@ -1,56 +1,79 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-  </head>
-  <body>
-    <app-header></app-header>
-    <div
-      style="
-        background-image: url('assets/images/converted-1-scaled.webp');
-        background-repeat: no-repeat;
-        background-size: cover;
-        height: 600px;
-        justify-content: center;
-        display: flex;
-        align-items: center;
-      "
-    >
-      <div class="container container-login">
-        <h2>Đăng Nhập Tài Khoản</h2>
-        <h5>
-          Bạn chưa có tài khoản? Đăng ký <a routerLink="/register">tại đây</a>
-        </h5>
-        <form #loginForm="ngForm" (ngSubmit)="login()" class="form-login">
-          <label for="login-email">Email</label>
-          <input
-            type="email"
-            id="login-email"
-            name="email"
-            [(ngModel)]="loginData.email"
-            placeholder="Nhập email"
-            required
-          />
+<app-header></app-header>
 
-          <label for="login-password">Mật khẩu</label>
-          <input
-            type="password"
-            id="login-password"
-            name="password"
-            [(ngModel)]="loginData.password"
-            placeholder="Nhập mật khẩu"
-            required
-          />
-          <div class="error-message" *ngIf="loginError">{{ loginError }}</div>
+<main class="auth-wrapper d-flex align-items-center justify-content-center" style="min-height: 80vh; background-color: #f8fbff; padding: 40px 0;">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-5 col-md-8">
+        <div class="auth-card aura-card p-5 bg-white border-0 shadow-lg" style="border-radius: 20px;">
+          <div class="text-center mb-4">
+            <h2 class="display-6 fw-bold text-primary mb-2">Đăng Nhập</h2>
+            <p class="text-muted">Chào mừng bạn quay lại với Aura Fashion</p>
+          </div>
 
-          <button type="submit" class="submit" [disabled]="loginForm.invalid">
-            Đăng nhập
-          </button>
-        </form>
+          <form #loginForm="ngForm" (ngSubmit)="login()" class="auth-form">
+            <div class="mb-4">
+              <label for="login-email" class="form-label fw-bold text-secondary">Địa chỉ Email</label>
+              <div class="input-group">
+                <span class="input-group-text bg-light border-0 py-3"><i class="fa fa-envelope text-muted"></i></span>
+                <input
+                  type="email"
+                  id="login-email"
+                  name="email"
+                  class="form-control bg-light border-0 py-3"
+                  [(ngModel)]="loginData.email"
+                  placeholder="name@example.com"
+                  required
+                />
+              </div>
+            </div>
+
+            <div class="mb-4">
+              <label for="login-password" class="form-label fw-bold text-secondary">Mật khẩu</label>
+              <div class="input-group">
+                <span class="input-group-text bg-light border-0 py-3"><i class="fa fa-lock text-muted"></i></span>
+                <input
+                  type="password"
+                  id="login-password"
+                  name="password"
+                  class="form-control bg-light border-0 py-3"
+                  [(ngModel)]="loginData.password"
+                  placeholder="Nhập mật khẩu"
+                  required
+                />
+              </div>
+            </div>
+
+
+            <div class="d-flex justify-content-between align-items-center mb-4">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="rememberMe">
+                <label class="form-check-label text-muted" for="rememberMe small">
+                  Ghi nhớ tôi
+                </label>
+              </div>
+              <a href="#" class="text-primary text-decoration-none small fw-bold">Quên mật khẩu?</a>
+            </div>
+
+            <div class="error-message text-danger mb-3 small" *ngIf="loginError">
+              <i class="fa fa-exclamation-circle me-1"></i> {{ loginError }}
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100 py-3 fw-bold rounded-pill shadow-sm" [disabled]="loginForm.invalid">
+              Đăng Nhập Ngay
+            </button>
+          </form>
+
+          <div class="text-center mt-5">
+            <p class="text-muted mb-0">
+              Bạn chưa có tài khoản? 
+              <a routerLink="/register" class="text-primary text-decoration-none fw-bold">Đăng ký tại đây</a>
+            </p>
+          </div>
+        </div>
       </div>
     </div>
-    <app-footer></app-footer>
-  </body>
-</html>
+  </div>
+</main>
+
+<app-footer></app-footer>
+

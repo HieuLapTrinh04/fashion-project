@@ -4,16 +4,16 @@
   }
   
   .section-title {
-    text-align: center;
-    font-family: "Pacifico", serif;
-    font-weight: 400;
-    font-style: normal;
-    text-align: center;
-    font-size: 40px;
-    margin-top: 0px;
-    margin-bottom: 30px;
-    font-style: italic;
-  }
+  text-align: center;
+  font-family: 'Playfair Display', serif;
+  font-weight: bold;
+  font-style: normal;
+  text-align: center;
+  font-size: 40px;
+  margin-top: 10px;
+  margin-bottom: 30px;
+  color: #007bff;
+}
   .img-title {
     width: 140px;
     height: 110px;
@@ -108,16 +108,49 @@
     border-radius: 20px;
   }
   
-  .submit-btn {
-    background-color: #b71c1c;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  .submit-btn:hover {
-    background-color: #d32f2f;
-  }
+.aura-contact-icon {
+    width: 48px !important;
+    height: 48px !important;
+    flex: 0 0 48px !important;
+    aspect-ratio: 1 / 1 !important;
+    border-radius: 50% !important;
+    background-color: #f0f7ff !important;
+    color: #007bff !important;
+    border: 1px solid #e1efff !important;
+    transition: all 0.3s ease !important;
+    overflow: hidden !important;
+}
+
+.info-item:hover .aura-contact-icon {
+    background-color: #007bff !important;
+    color: #ffffff !important;
+    transform: scale(1.05);
+}
+
+.lh-sm {
+    line-height: 1.4 !important;
+}
+
+.aura-btn-submit {
+    background-color: #007bff !important;
+    border: none !important;
+    border-radius: 12px !important;
+    padding: 22px 0 !important;
+    letter-spacing: 2px !important;
+    text-transform: uppercase !important;
+    font-size: 0.9rem !important;
+    transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1) !important;
+    box-shadow: 0 4px 10px rgba(0, 123, 255, 0.2) !important;
+}
+
+.aura-btn-submit:hover {
+    background-color: #0056b3 !important;
+    transform: translateY(-3px) !important;
+    box-shadow: 0 12px 25px rgba(0, 123, 255, 0.4) !important;
+    filter: brightness(1.1) !important;
+}
+
+.aura-btn-submit:active {
+    transform: translateY(-1px) !important;
+}
   

@@ -1,70 +1,67 @@
-.container {
-    font-family: Arial, sans-serif;
-    max-width: 800px;
-    margin-bottom: 20px;
-  }
-  
-  h2 {
-    color: #333;
-    margin-bottom: 10px;
-  }
-  
-  .product-list,
-  .cart-item {
+.shop-page-wrapper {
+    background-color: var(--aura-bg-light);
+    min-height: 100vh;
     display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-  }
-  
-  .product-card,
-  .cart-item {
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    padding: 10px;
-    text-align: center;
-    width: calc(33.333% - 20px);
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  .product-image,
-  .cart-item-image {
-    width: 100%;
-    height: auto;
-    margin-bottom: 10px;
-  }
-  
-  button {
-    background-color: #4CAF50;
-    color: white;
+    flex-direction: column;
+}
+
+.sidebar-sticky {
+    position: sticky;
+    top: 100px;
+}
+
+.category-header h5 {
+    font-size: 1.1rem;
+    color: var(--aura-secondary);
+}
+
+.list-group-item {
     border: none;
-    padding: 10px 15px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-  }
-  
-  button:hover {
-    background-color: #45a049;
-  }
-  
-  button:disabled {
-    background-color: #ccc;
+    transition: all 0.2s ease;
+    font-size: 0.95rem;
+    color: var(--aura-text-muted);
+}
+
+.list-group-item:hover {
+    background-color: #f0f7ff;
+    color: var(--aura-primary);
+    padding-left: 1.75rem !important;
+}
+
+.list-group-item.active {
+    background-color: var(--aura-primary);
+    border-color: var(--aura-primary);
+    color: white;
+}
+
+.filter-bar {
+    border-color: rgba(0,0,0,0.05) !important;
+}
+
+/* Pagination Styling */
+.pagination .page-link {
+    color: var(--aura-text-muted);
+    border: 1px solid #eee;
+    background-color: white;
+    transition: all 0.3s ease;
+}
+
+.pagination .page-link:hover {
+    background-color: #f0f7ff;
+    color: var(--aura-primary);
+    border-color: var(--aura-primary);
+}
+
+.pagination .page-link.active {
+    background-color: var(--aura-primary);
+    color: white;
+    border-color: var(--aura-primary);
+    box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
+}
+
+.pagination .page-item.disabled .page-link {
+    background-color: #f8f9fa;
+    border-color: #eee;
+    opacity: 0.5;
     cursor: not-allowed;
-  }
-  
-  .cart-item button {
-    margin: 5px;
-  }
-  
-  .title {
-    padding-right: 40px;
-  }
-  .table1 {
-    width: 1000px;
-    height: 150px;
-  }
-  .head1 {
-    margin-top: 20px;
-    color: red;
-    margin-left: 400px;
-  }
+}

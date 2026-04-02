@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-login',
@@ -27,7 +28,7 @@ export class LoginComponent {
   constructor(private http: HttpClient, private router: Router) {}
 
   login() {
-  this.http.post<any>("http://localhost:3000/login", this.loginData)
+  this.http.post<any>(`${environment.apiUrl}/login`, this.loginData)
     .subscribe({
       next: (res) => {
         localStorage.setItem("token", res.token);

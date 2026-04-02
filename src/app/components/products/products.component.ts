@@ -1,215 +1,163 @@
-import { Router, RouterOutlet } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import Aos from 'aos';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import { Router, ActivatedRoute, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { HeaderComponent } from '../header/header.component';
 import { FooterComponent } from '../footer/footer.component';
 import { CartService } from '../../services/cart.service';
-import { ProductService } from '../../services/product.service';
+import Aos from 'aos';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-products',
-  imports: [CommonModule, FormsModule, HeaderComponent, FooterComponent],
+  standalone: true,
+  imports: [CommonModule, FormsModule, HttpClientModule, HeaderComponent, FooterComponent, RouterLink],
   templateUrl: './products.component.html',
   styleUrl: './products.component.css',
 })
+
 export class ProductsComponent implements OnInit {
-  totalPrice: number = 0; // Tổng giá trị giỏ hàng
-  checkoutMessage: string = ''; // Thông báo khi thanh toán
-  title = 'Project-Tet';
-  newProduct = {
-    name: '',
-    description: '',
-    price: 0,
-    stock: 0,
-  };
-  productIdToDelete: number = 0;
+  allProducts: any[] = [];
+  filteredProducts: any[] = [];
+  paginatedProducts: any[] = [];
+  
+  searchTerm: string = '';
+  categoryFilter: string = 'all';
+  sortBy: string = 'newest';
+  
+  categoriesWithCount: { name: string; count: number }[] = [];
+
+  // Pagination
+  currentPage: number = 1;
+  pageSize: number = 12;
+  totalPages: number = 1;
+  pages: number[] = [];
+
   constructor(
     private http: HttpClient,
-    private productService: ProductService,
-    private router: Router,
-    private cartService: CartService
+    private cartService: CartService,
+    private route: ActivatedRoute
   ) {}
+
   ngOnInit(): void {
     Aos.init({
-      duration: 1200,
-      easing: 'ease-in-out',
-      once: false, // Lặp lại hiệu ứng khi cuộn
-      anchorPlacement: 'top-bottom', // Vị trí kích hoạt
+      duration: 1000,
+      easing: 'ease-out-cubic',
+      once: true
     });
     this.getProducts();
-    this.getCartItems();
-    this.cartService.getCartItems().subscribe(
-      (items) => {
-        this.cartItems = items;
-        console.log('Danh sách sản phẩm trong giỏ hàng:', this.cartItems);
-      },
-      (error) => {
-        console.error('Lỗi khi lấy danh sách giỏ hàng:', error);
+
+    // Listen for search query from Header (Deep Linking)
+    this.route.queryParamMap.subscribe(params => {
+      const q = params.get('q');
+      if (q !== null) {
+        this.searchTerm = q;
+        this.applyFilters();
       }
-    );
+    });
   }
 
   getProducts() {
-    this.http.get('http://localhost:3000/products').subscribe((data: any) => {
-      this.products = data;
-      console.log(this.products);
+    this.http.get<any[]>(`${environment.apiUrl}/products`).subscribe({
+      next: (data) => {
+        this.allProducts = data;
+        this.calculateCategoryCounts();
+        this.applyFilters();
+      },
+      error: (err) => console.error('Lỗi lấy sản phẩm:', err)
     });
   }
 
-  postProduct() {
-    const apiUrl = 'http://localhost:3000/products'; // URL API POST
-    this.http
-      .post(apiUrl, this.newProduct, { responseType: 'text' })
-      .subscribe({
-        next: (response) => {
-          console.log('Sản phẩm đã được tạo:', response);
-          this.getProducts(); // Tải lại danh sách sản phẩm sau khi tạo thành công
-        },
-        error: (error) => {
-          console.error('Lỗi khi tạo sản phẩm:', error);
-        },
-      });
-  }
-
-  deleteProduct() {
-    const apiUrl = `http://localhost:3000/products/${this.productIdToDelete}`;
-    this.http.delete(apiUrl).subscribe({
-      next: (response: any) => {
-        console.log('Sản phẩm đã bị xóa:', response);
-        this.getProducts(); // Tải lại danh sách sản phẩm sau khi xóa
-      },
-      error: (error: any) => {
-        // console.error('Lỗi khi xóa sản phẩm:', error);
-        this.getProducts(); // Tải lại danh sách sản phẩm sau khi xóa
-      },
+  calculateCategoryCounts() {
+    const counts: { [key: string]: number } = {};
+    this.allProducts.forEach(p => {
+      const cat = p.category || 'Khác';
+      counts[cat] = (counts[cat] || 0) + 1;
     });
+
+    this.categoriesWithCount = Object.keys(counts).map(name => ({
+      name,
+      count: counts[name]
+    })).sort((a, b) => b.count - a.count);
   }
 
-  products = [
-    {
-      id: 1,
-      name: 'Sản phẩm 1',
-      price: 100000,
-      image: 'https://via.placeholder.com/150',
-    },
-    {
-      id: 2,
-      name: 'Sản phẩm 2',
-      price: 200000,
-      image: 'https://via.placeholder.com/150',
-    },
-    {
-      id: 3,
-      name: 'Sản phẩm 3',
-      price: 300000,
-      image: 'https://via.placeholder.com/150',
-    },
-  ];
+  applyFilters() {
+    let filtered = this.allProducts.filter(product => {
+      const matchesSearch = product.name.toLowerCase().includes(this.searchTerm.toLowerCase()) || 
+                           (product.brand && product.brand.toLowerCase().includes(this.searchTerm.toLowerCase()));
+      const matchesCategory = this.categoryFilter === 'all' || product.category === this.categoryFilter;
+      return matchesSearch && matchesCategory;
+    });
 
-  // Thêm sản phẩm vào giỏ hàng
-  addProductToCart() {
-    const product = {
-      product_id: 1,
-      name: 'Áo Thun',
-      price: 150000,
-      image: 'https://example.com/ao-thun.jpg',
+    // Apply Sorting
+    if (this.sortBy === 'newest') {
+        filtered.sort((a, b) => Number(b.id) - Number(a.id));
+    } else if (this.sortBy === 'price-asc') {
+        filtered.sort((a, b) => Number(a.price) - Number(b.price));
+    } else if (this.sortBy === 'price-desc') {
+        filtered.sort((a, b) => Number(b.price) - Number(a.price));
+    } else if (this.sortBy === 'discount') {
+        filtered.sort((a, b) => (Number(b.discount_percent) || 0) - (Number(a.discount_percent) || 0));
+    }
+
+    this.filteredProducts = filtered;
+    this.currentPage = 1;
+    this.updatePagination();
+  }
+
+  updatePagination() {
+    this.totalPages = Math.ceil(this.filteredProducts.length / this.pageSize);
+    this.pages = Array.from({ length: this.totalPages }, (_, i) => i + 1);
+    
+    const startIndex = (this.currentPage - 1) * this.pageSize;
+    const endIndex = startIndex + this.pageSize;
+    this.paginatedProducts = this.filteredProducts.slice(startIndex, endIndex);
+
+    // Scroll to top of product list when changing page
+    if (this.currentPage > 0) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }
+
+  setPage(page: number) {
+    if (page >= 1 && page <= this.totalPages) {
+      this.currentPage = page;
+      this.updatePagination();
+    }
+  }
+
+  nextPage() {
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+      this.updatePagination();
+    }
+  }
+
+  prevPage() {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      this.updatePagination();
+    }
+  }
+
+  setCategory(cat: string) {
+    this.categoryFilter = cat;
+    this.applyFilters();
+  }
+
+  addProductToCart(product: any) {
+    const cartProduct = {
+      product_id: product.id,
+      name: product.name,
+      price: product.price,
+      image: product.image,
       quantity: 1,
     };
 
-    this.cartService.addToCart(product).subscribe(
-      (response) => {
-        console.log('Thêm sản phẩm thành công:', response);
-        this.ngOnInit(); // Refresh danh sách sản phẩm
-      },
-      (error) => {
-        console.error('Lỗi khi thêm sản phẩm:', error);
-      }
-    );
-  }
-
-  // Xóa sản phẩm khỏi giỏ hàng
-  removeProductFromCart(cartItemId: number) {
-    this.cartService.removeFromCart(cartItemId).subscribe({
-      next:
-      (response) => {
-        console.log('Xóa sản phẩm thành công:', response);
-        this.ngOnInit(); // Refresh danh sách sản phẩm
-      }, error:
-      (error) => {
-        console.error('Lỗi khi xóa sản phẩm:', error);
-      }
-   } );
-  }
-
- // Cập nhật số lượng sản phẩm
- updateQuantity(cartItemId: number, event: Event): void {
-  const inputElement = event.target as HTMLInputElement;
-  const quantity = parseInt(inputElement.value, 10);
-
-  if (quantity <= 0) {
-    alert('Số lượng phải lớn hơn 0!');
-    return;
-  }
-
-  this.cartService.updateCartItem(cartItemId, quantity).subscribe({
-    next: () => {
-      const item = this.cartItems.find((item) => item.id === cartItemId);
-      if (item) {
-        item.quantity = quantity;
-      }
-      this.calculateTotalPrice();
-    },
-    error: (err) => console.error('Lỗi khi cập nhật số lượng:', err),
-  });
-}
-
-  // Lấy danh sách sản phẩm trong giỏ hàng
-  getCartItems(): void {
-    this.http.get<any[]>('http://localhost:3000/cart').subscribe({
-      next: (data) => {
-        this.cartItems = data;
-        this.calculateTotalPrice(); // Cập nhật tổng tiền
-      },
-      error: (error) => {
-        console.error('Lỗi khi lấy giỏ hàng:', error);
-      },
+    this.cartService.addToCart(cartProduct).subscribe({
+      next: () => alert('Đã thêm sản phẩm vào giỏ hàng!'),
+      error: (err) => alert('Vui lòng đăng nhập để thêm vào giỏ hàng!')
     });
   }
-
-  // Tính tổng giá trị giỏ hàng
-  calculateTotalPrice(): void {
-    this.totalPrice = this.cartItems.reduce(
-      (total, item) => total + item.price * item.quantity,
-      0
-    );
-  }
-
-
-  cartItems: any[] = [];
-
-  // Thanh toán
-  checkout(): void {
-    const cartId = this.cartItems[0].id; 
-    const orderData = { cartId: cartId, totalPrice: this.totalPrice };
-
-    console.log('Dữ liệu gửi đến API:', orderData);
-
-    this.http.post('http://localhost:3000/checkout', orderData).subscribe({
-        next: (response: any) => {
-            console.log('Phản hồi từ API:', response);
-            this.checkoutMessage = 'Thanh toán thành công!';
-            this.cartItems = []  ;
-            this.totalPrice = 0;
-        },
-        error: (err) => {
-            console.error('Lỗi khi thanh toán:', err);
-            console.log('Chi tiết lỗi:', err.error);
-            this.checkoutMessage = 'Thanh toán thất bại. Vui lòng thử lại!';
-        },
-    });
-}
-
 }

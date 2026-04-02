@@ -1,0 +1,26 @@
+.page-container {
+  animation: fadeIn 0.5s ease;
+}
+
+.aura-card {
+  transition: all 0.3s ease;
+  border-radius: 20px;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.table thead th {
+  background-color: transparent;
+  color: #6c757d;
+  font-weight: 600;
+  border-bottom: 2px solid #f8f9fa;
+}
+
+.form-control:focus {
+  box-shadow: none;
+  background-color: #fff !important;
+  border-color: #0d6efd !important;
+}

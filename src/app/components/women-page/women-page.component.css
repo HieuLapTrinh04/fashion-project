@@ -1,0 +1,84 @@
+.add-cart {
+  width: 150px;
+}
+  .img-title {
+    width: 140px;
+    height: 110px;
+    margin-left: 580px;
+  }
+  .head2 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-style: normal;
+    text-align: center;
+    font-size: 40px;
+    margin-top: 10px;
+    margin-bottom: 30px;
+    color: #007bff;
+  }
+
+  .gift-holiday {
+    margin-top: 0px;
+  }
+  .gift {
+    margin-bottom: 50px;
+  }
+
+  .fashion-holiday {
+    margin-bottom: 30px;
+    position: relative;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .fashion-holiday img {
+    transition: transform 0.3s ease;
+  }
+  .btn:hover {
+    background-color: green;
+    border: 1px solid green;
+  }
+  .fashion-holiday:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+  }
+  .fashion-holiday:hover img {
+    transform: scale(1.05);
+  }
+  
+  .btn-user {
+    display: grid; /* Kích hoạt Grid Layout */
+    grid-template-columns: repeat(4, 1fr); /* Định nghĩa 3 cột đều nhau */
+    grid-gap: 10px;
+    margin-left: 220px;
+    margin-top: 100px;
+  }
+  .btn-0 {
+    width: 250px;
+    height: 150px;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    border-radius: 20px;
+    border: 1px solid transparent;
+    justify-content: center;
+    align-items: center;
+    font-weight: 700;
+    font-size: 18px;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+  
+  }
+  .btn-1,
+  .btn-2,
+  .btn-3,
+  .btn-4,
+  .btn-5,
+  .btn-6,
+  .btn-7,
+  .btn-8,
+  .btn-9 {
+    font-size: 45px;
+    color: rgb(195, 10, 10);
+  }
+  .img-banner {
+    width: 1686px;
+    height: 500px;
+  }

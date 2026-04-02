@@ -1,0 +1,66 @@
+<section class="py-5 bg-white">
+  <div class="container overflow-hidden">
+    <div class="text-center mb-5" data-aos="fade-up">
+      <h2 class="display-5 fw-bold text-primary mb-3">Thời Trang Nữ Aura</h2>
+      <p class="text-muted mx-auto" style="max-width: 800px; font-size: 1.15rem;">
+        "Khám phá sự giao thoa giữa nét đẹp thanh lịch và phong cách hiện đại cùng Aura Fashion."
+      </p>
+    </div>
+
+    <!-- FORCE 4 COLUMNS WITH row-cols-lg-4 -->
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4" *ngIf="products.length > 0; else noFashion">
+      <div class="col" *ngFor="let item of products; let i = index">
+        <div class="aura-premium-card h-100 shadow-sm border-0 rounded-4 overflow-hidden bg-white" data-aos="fade-up" [attr.data-aos-delay]="i * 100">
+          <div class="card-img-wrapper position-relative overflow-hidden" [routerLink]="['/product', item.id]" style="cursor: pointer;">
+            <img [src]="item.image" [alt]="item.name" class="card-img-top aura-img-zoom">
+            <div class="position-absolute top-0 start-0 m-3" *ngIf="item.discount_percent > 0">
+              <span class="badge bg-danger rounded-pill px-3 py-2 shadow-sm">-{{ item.discount_percent }}%</span>
+            </div>
+            <button class="btn btn-white position-absolute top-0 end-0 m-3 rounded-circle shadow-sm p-0 d-flex align-items-center justify-content-center" style="width: 36px; height: 36px;">
+              <i class="fa-regular fa-heart text-muted"></i>
+            </button>
+            <button class="btn btn-primary btn-add-float position-absolute shadow shadow-lg d-flex align-items-center justify-content-center" (click)="addProductToCart(item); $event.stopPropagation()">
+              <i class="fa-solid fa-cart-plus"></i>
+            </button>
+          </div>
+
+          <div class="card-body p-3 d-flex flex-column text-start">
+            <div class="mb-1">
+              <span class="text-primary text-uppercase small fw-bold tracking-wider" style="letter-spacing: 1px; font-size: 0.65rem;">{{ item.brand || 'Aura Selection' }}</span>
+            </div>
+            <h6 class="product-name fw-bold text-dark text-truncate mb-2" style="font-size: 0.9rem; cursor: pointer;" [routerLink]="['/product', item.id]">{{ item.name }}</h6>
+
+            
+            <div class="d-flex align-items-center gap-1 mb-2">
+              <div class="rating-stars text-warning" style="font-size: 0.7rem;">
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+              </div>
+              <span class="text-muted" style="font-size: 0.65rem;">| Đã bán {{ item.sold_count || 0 }}</span>
+            </div>
+
+            <div class="mt-auto">
+                <div class="d-flex align-items-center gap-2">
+                    <span class="text-primary fw-bold mb-0" style="font-size: 1rem;">{{ item.price | number:'1.0-0' }}₫</span>
+                    <small class="text-muted text-decoration-line-through" *ngIf="item.old_price" style="font-size: 0.8rem;">{{ item.old_price | number:'1.0-0' }}₫</small>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="text-center mt-5">
+      <button class="btn-aura-outline" routerLink="/pageFashion">Xem Tất Cả Sản Phẩm Nữ</button>
+    </div>
+
+    <ng-template #noFashion>
+      <div class="text-center py-5">
+        <p class="text-muted italic">Hiện tại chưa có sản phẩm nào để hiển thị.</p>
+      </div>
+    </ng-template>
+  </div>
+</section>

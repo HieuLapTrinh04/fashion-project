@@ -1,96 +1,78 @@
-.admin-container {
-  max-width: 900px;
-  margin: 30px auto;
-  background: #fff;
-  padding: 25px;
-  border-radius: 12px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+.admin-users-wrap, .admin-orders-wrap {
+  animation: fadeIn 0.5s ease;
 }
 
-.admin-container h2 {
-  margin-bottom: 20px;
-  color: #333;
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.card {
+  border: 1px solid #f3f4f6 !important;
+}
+
+.table thead th {
   font-weight: 600;
-}
-
-.admin-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.admin-table thead {
-  background: #f4f6f8;
-}
-
-.admin-table th,
-.admin-table td {
-  padding: 12px 15px;
-  text-align: center;
-}
-
-.admin-table th {
-  font-weight: 600;
-  color: #555;
-}
-
-.admin-table tbody tr {
-  border-bottom: 1px solid #eee;
-}
-
-.admin-table tbody tr:hover {
-  background: #fafafa;
-}
-
-/* Role badge */
-.role {
-  padding: 5px 12px;
-  border-radius: 20px;
-  font-size: 13px;
-  font-weight: 600;
+  color: #6b7280;
+  font-size: 0.85rem;
   text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 16px;
+  border-bottom: 2px solid #f3f4f6;
 }
 
-.role.admin {
-  background: #e3f2fd;
-  color: #1976d2;
+.table tbody td {
+  padding: 16px;
+  border-bottom: 1px solid #f9fafb;
 }
 
-.role.user {
-  background: #f1f8e9;
-  color: #558b2f;
-}
-
-/* Buttons */
-.actions {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-}
-
-.btn {
-  padding: 6px 14px;
+.badge {
+  padding: 6px 12px;
   border-radius: 6px;
-  border: none;
-  cursor: pointer;
-  font-size: 13px;
-  font-weight: 600;
-  transition: 0.2s;
+  font-weight: 500;
+  font-size: 0.75rem;
 }
 
-.btn.admin {
-  background: #1976d2;
-  color: #fff;
+.bg-primary-subtle { background-color: #eff6ff !important; }
+.bg-secondary-subtle { background-color: #f3f4f6 !important; }
+.bg-success-subtle { background-color: #ecfdf5 !important; }
+
+.btn-group .btn {
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: all 0.2s;
 }
 
-.btn.admin:hover {
-  background: #1565c0;
+.btn-group .btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
 }
 
-.btn.user {
-  background: #9e9e9e;
-  color: #fff;
+.user-avatar-rect {
+  font-weight: 800;
+  font-size: 1.1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
-.btn.user:hover {
-  background: #757575;
+.form-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(17, 24, 39, 0.7);
+  backdrop-filter: blur(4px);
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.form-card {
+  width: 100%;
+  max-width: 500px;
+  background: white;
+  max-height: 90vh;
+  overflow-y: auto;
 }

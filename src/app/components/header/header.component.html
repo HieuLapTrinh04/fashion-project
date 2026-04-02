@@ -1,119 +1,179 @@
-<header class="navbar navbar-expand-lg navbar-dark bg-danger">
-  <div class="container">
+<header class="navbar navbar-expand-lg navbar-light bg-white border-bottom p-0">
+  <div class="container-fluid header-main-container">
+    <!-- LEFT: BRAND LOGO -->
+    <div class="header-section logo-section">
+      <a class="navbar-brand d-flex align-items-center m-0" routerLink="/home">
+        <i class="fa fa-crown me-2 text-primary"></i>
+        <span class="brand-name">AURA FASHION</span>
+      </a>
+    </div>
 
-    <!-- LOGO -->
-    <img
-      src="https://img.pikbest.com/origin/10/06/77/24UpIkbEsTeSX.png!w700wp"
-      class="img-mai"
-      alt="Nhanh Mai"
-    />
-
-    <a class="navbar-brand pacifico-regular" routerLink="/home">
-      Quà Xuân
-    </a>
-
-    <img
-      src="https://mir-s3-cdn-cf.behance.net/projects/404/14963915.5488e414bc788.png"
-      class="img-mai2"
-      alt="Nhanh Mai"
-    />
-
-    <!-- TOGGLER -->
-    <button
-      class="navbar-toggler"
-      type="button"
-      data-bs-toggle="collapse"
-      data-bs-target="#navbarNav"
+    <!-- CENTER: NAVIGATION MENU -->
+    <nav
+      class="header-section nav-section collapse navbar-collapse d-lg-flex justify-content-center"
+      id="navbarNav"
     >
-      <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <!-- MENU -->
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav ms-auto align-items-lg-center">
-
-        <!-- TRANG CHỦ -->
+      <ul class="navbar-nav nav-links-group">
         <li class="nav-item">
-          <a class="nav-link" routerLink="/home" routerLinkActive="active">
-            <i class="fa fa-home me-1"></i> Trang Chủ
-          </a>
-        </li>
-
-        <!-- THỜI TRANG -->
-        <li class="nav-item dropdown">
           <a
-            class="nav-link dropdown-toggle"
-            role="button"
+            class="nav-link-item"
+            routerLink="/home"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+            >Trang chủ</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link-item"
+            routerLink="/products"
+            routerLinkActive="active"
+            >Sản phẩm</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link-item"
+            routerLink="/women-fashion"
+            routerLinkActive="active"
+            >Thời Trang Nữ</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link-item"
+            routerLink="/men-fashion"
+            routerLinkActive="active"
+            >Thời Trang Nam</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link-item"
+            routerLink="/new-arrivals"
+            routerLinkActive="active"
+            >Hàng Mới</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link-item text-danger"
+            routerLink="/hot-promotions"
+            routerLinkActive="active"
+            >Khuyến mãi</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link-item"
+            routerLink="/contact"
+            routerLinkActive="active"
+            >Liên hệ</a
+          >
+        </li>
+      </ul>
+    </nav>
+
+    <!-- RIGHT: SEARCH & UTILITIES -->
+    <div class="header-section utility-section d-flex align-items-center gap-3">
+      <!-- SEARCH BAR -->
+      <div class="search-wrapper d-none d-lg-flex">
+        <input
+          type="text"
+          class="search-input-field"
+          placeholder="Tìm kiếm..."
+          [(ngModel)]="searchTerm"
+          (keyup.enter)="onSearch()"
+        />
+        <button class="search-trigger-btn" (click)="onSearch()">
+          <i class="fa fa-search"></i>
+        </button>
+      </div>
+
+      <!-- UTILITY ICONS -->
+      <div class="icons-group d-flex align-items-center gap-3">
+        <!-- USER -->
+        <div class="dropdown" *ngIf="isLogin">
+          <button
+            class="icon-btn-utility dropdown-toggle no-caret"
+            type="button"
             data-bs-toggle="dropdown"
           >
-            Thời Trang
-          </a>
-          <ul class="dropdown-menu">
-            <li>
-              <a class="dropdown-item" routerLink="/pageFashion">
-                Quần Áo
-              </a>
-            </li>
-            <li>
-              <a class="dropdown-item" routerLink="/pageGiay">
-                Giày Dép
-              </a>
-            </li>
-          </ul>
-        </li>
-
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/pageQuaTet">Quà Tết</a>
-        </li>
-
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/pageTinTuc">Tin Tức</a>
-        </li>
-
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/pageLienHe">Liên Hệ</a>
-        </li>
-
-        <!-- ADMIN -->
-        <li class="nav-item" *ngIf="role === 'admin'">
-          <a class="nav-link text-warning fw-bold" routerLink="/admin">
-            Quản Lý Website
-          </a>
-        </li>
-
-        <!-- CHƯA LOGIN -->
-        <li class="nav-item dropdown" *ngIf="!isLogin">
-          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-            <i class="fa fa-user"></i>
-          </a>
-          <ul class="dropdown-menu dropdown-menu-end">
-            <li>
-              <a class="dropdown-item" routerLink="/login">Đăng Nhập</a>
-            </li>
-            <li>
-              <a class="dropdown-item" routerLink="/register">Đăng Ký</a>
-            </li>
-          </ul>
-        </li>
-
-        <!-- ĐÃ LOGIN -->
-        <li class="nav-item" *ngIf="isLogin">
-          <button
-            class="nav-link btn btn-link text-white"
-            (click)="logout()"
-          >
-            Đăng Xuất
+            <i class="fa-regular fa-user"></i>
           </button>
-        </li>
+          <ul
+            class="dropdown-menu dropdown-menu-end shadow border-0 rounded-3 mt-2"
+          >
+            <li>
+              <a class="dropdown-item py-2 px-3" routerLink="/profile"
+                >Hồ sơ cá nhân</a
+              >
+            </li>
+            <li>
+              <a class="dropdown-item py-2 px-3" routerLink="/my-orders"
+                >Đơn hàng của tôi</a
+              >
+            </li>
+            <li *ngIf="role === 'admin'"><hr class="dropdown-divider" /></li>
+            <li *ngIf="role === 'admin'">
+              <a
+                class="dropdown-item text-warning py-2 px-3"
+                routerLink="/admin"
+                >Quản lý Website</a
+              >
+            </li>
+            <li><hr class="dropdown-divider text-dark opacity-10" /></li>
+            <li>
+              <button
+                class="dropdown-item text-danger py-2 px-3"
+                (click)="logout()"
+              >
+                Đăng xuất
+              </button>
+            </li>
+          </ul>
+        </div>
+
+        <div class="dropdown" *ngIf="!isLogin">
+          <button
+            class="icon-btn-utility dropdown-toggle no-caret"
+            type="button"
+            data-bs-toggle="dropdown"
+          >
+            <i class="fa-regular fa-user"></i>
+          </button>
+          <ul
+            class="dropdown-menu dropdown-menu-end shadow border-0 rounded-3 mt-2"
+          >
+            <li>
+              <a class="dropdown-item py-2 px-3" routerLink="/login"
+                >Đăng nhập</a
+              >
+            </li>
+            <li>
+              <a class="dropdown-item py-2 px-3" routerLink="/register"
+                >Đăng ký</a
+              >
+            </li>
+          </ul>
+        </div>
 
         <!-- CART -->
-        <li class="nav-item">
-          <button class="nav-link btn-cart" routerLink="/products">
-            <i class="fa fa-shopping-cart"></i>
-          </button>
-        </li>
+        <button class="icon-btn-utility position-relative" routerLink="/cart">
+          <i class="fa-solid fa-shopping-bag"></i>
+          <span class="cart-count-badge">{{ cartItemsCount }}</span>
+        </button>
+      </div>
 
-      </ul>
+      <!-- MOBILE TOGGLER -->
+      <button
+        class="navbar-toggler border-0 p-1 d-lg-none"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarNav"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
     </div>
   </div>
 </header>

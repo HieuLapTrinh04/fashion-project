@@ -1,59 +1,65 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-</head>
-<body>
-  <footer class="footer">
-    <div class="footer-container">
-      <!-- Thông tin công ty -->
-      <div class="footer-section">
-        <h4 class="footer-title">{{companyInfo.name}}</h4>
-        <p>Địa chỉ: {{companyInfo.address}}</p>
-        <p>Hotline: <a href="tel:02866860863">{{companyInfo.hotline}}</a></p>
-        <p>Email: <a href="mailto:kinhdoanh@web.vn">{{companyInfo.email}}</a></p>
-        <div class="payment-icons">
-          <img src="{{companyInfo.paymentIcons[0]}}" alt="Visa" />
-          <img src="{{companyInfo.paymentIcons[1]}}" alt="MasterCard" />
-          <img src="{{companyInfo.paymentIcons[2]}}" alt="AMEX" />
-          <img src="{{companyInfo.paymentIcons[3]}}" alt="Discover" />
+<footer class="footer-wrap">
+  <div class="container footer-content">
+    <div class="row">
+      <!-- COLUMN 1: BRAND STORY -->
+      <div class="col-lg-3 col-md-6 mb-4">
+        <h3 class="footer-brand">AURA FASHION</h3>
+        <p class="brand-desc">
+          Khám phá phong cách thời trang tối giản và hiện đại. Chúng tôi mang
+          đến những thiết kế tinh tế giúp bạn tự tin tỏa sáng mỗi ngày.
+        </p>
+        <div class="social-links">
+          <a href="#" class="social-btn sb-facebook" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+          <a href="#" class="social-btn sb-instagram" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#" class="social-btn sb-tiktok" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+          <a href="#" class="social-btn sb-youtube" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
         </div>
       </div>
-  
-      <!-- Danh mục sản phẩm -->
-      <div class="footer-section">
-        <h4 class="footer-title">DANH MỤC SẢN PHẨM</h4>
-        <ul>
-          <li><a routerLink="QuanAo">Quần Áo Tết</a></li>
-          <li><a routerLink="Giay">Giày Tết</a></li>
-          <li><a routerLink="SetQua">Set Quà Tết</a></li>
+
+      <!-- COLUMN 2: CATEGORIES -->
+      <div class="col-lg-3 col-md-6 mb-4">
+        <h5 class="footer-heading">Bộ Sưu Tập</h5>
+        <ul class="footer-links">
+          <li><a routerLink="/pageFashion">Thời Trang Nữ</a></li>
+          <li><a routerLink="/SetQua">Thời Trang Nam</a></li>
+          <li><a routerLink="/pageGiay">Bộ Sưu Tập Mới</a></li>
+          <li><a routerLink="/hot-promotions">Khuyến Mãi Hot</a></li>
         </ul>
       </div>
-  
-      <!-- Menu web -->
-      <div class="footer-section">
-        <h4 class="footer-title">MENU WEB</h4>
-        <ul>
-          <li><a href="/">Trang chủ</a></li>
-          <li><a href="/cart">Giỏ hàng</a></li>
-          <li><a href="/checkout">Thanh toán</a></li>
-          <li><a href="/contact">Liên hệ</a></li>
+
+      <!-- COLUMN 3: SERVICE -->
+      <div class="col-lg-3 col-md-6 mb-4">
+        <h5 class="footer-heading">Dịch Vụ Khách Hàng</h5>
+        <ul class="footer-links">
+          <li><a routerLink="/size-guide">Hướng Dẫn Chọn Size</a></li>
+          <li><a routerLink="/policy/return">Chính Sách Đổi Trả</a></li>
+          <li><a routerLink="/policy/privacy">Chính Sách Bảo Mật</a></li>
+          <li><a routerLink="/policy/shipping">Chính Sách Vận Chuyển</a></li>
+          <li><a routerLink="/contact">Liên Hệ Hỗ Trợ</a></li>
         </ul>
       </div>
-  
-      <!-- Hỗ trợ khách hàng -->
-      <div class="footer-section">
-        <h4 class="footer-title">HỖ TRỢ KHÁCH HÀNG</h4>
-        <ul>
-          <li><a href="/support">Hỗ trợ khách hàng</a></li>
-          <li><a href="/terms">Điều khoản & dịch vụ</a></li>
-          <li><span class="disabled">Hướng dẫn thanh toán</span></li>
-        </ul>
+
+      <!-- COLUMN 4: NEWSLETTER -->
+      <div class="col-lg-3 col-md-6 mb-4">
+        <h5 class="footer-heading">Đăng Ký Nhận Tin</h5>
+        <p class="small text-muted mb-3">
+          Nhận ngay thông tin ưu đãi và BST mới nhất từ Aura Fashion.
+        </p>
+        <div class="newsletter-form">
+          <input
+            type="email"
+            placeholder="Email của bạn..."
+            class="form-control mb-2"
+          />
+          <button class="btn btn-primary w-100">Đăng Ký Ngay</button>
+        </div>
       </div>
     </div>
-  </footer>
-</body>
-</html>
-  
+  </div>
+
+  <div class="footer-bottom text-center">
+    <p class="mb-0">
+      &copy; 2026 Aura Fashion. Bảo lưu mọi quyền. Thiết kế bởi Văn Anh
+    </p>
+  </div>
+</footer>

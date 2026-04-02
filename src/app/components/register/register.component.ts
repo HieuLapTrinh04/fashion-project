@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { environment } from '../../../environments/environment';
 @Component({
   selector: 'app-register',
   imports: [
@@ -26,7 +27,7 @@ export class RegisterComponent {
   };
   register() {
     this.http
-      .post('http://localhost:3000/register', this.registerData, {
+      .post(`${environment.apiUrl}/register`, this.registerData, {
         responseType: 'text',
       })
       .subscribe({

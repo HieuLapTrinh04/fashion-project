@@ -1,0 +1,55 @@
+.checkout-page {
+    font-family: 'Inter', sans-serif;
+}
+
+.aura-card {
+    border-radius: var(--aura-radius);
+    transition: all 0.3s ease;
+}
+
+.checkout-items-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.checkout-items-list::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.checkout-items-list::-webkit-scrollbar-thumb {
+    background: #e0e0e0;
+    border-radius: 10px;
+}
+
+.checkout-items-list::-webkit-scrollbar-thumb:hover {
+    background: #d0d0d0;
+}
+
+.form-control:focus {
+    background-color: white !important;
+    border-color: #007bff !important;
+    box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.1) !important;
+}
+
+.btn-primary {
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.btn-primary:not(:disabled):hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0, 123, 255, 0.3) !important;
+}
+
+.btn-link:hover {
+    color: var(--aura-primary) !important;
+}
+
+.badge {
+    padding: 0.5em 0.8em;
+}
+
+@media (max-width: 991px) {
+    .container {
+        padding: 0 20px;
+    }
+}

@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import Aos from 'aos';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { environment } from '../environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -33,14 +34,14 @@ export class AppComponent implements OnInit {
 
   }
   getProducts() {
-    this.http.get('http://localhost:3000/products').subscribe((data: any) => {
+    this.http.get(`${environment.apiUrl}/products`).subscribe((data: any) => {
       this.products = data;
       console.log(this.products);
     });
 
   }
   postProduct() {
-    const apiUrl = 'http://localhost:3000/products'; // URL API POST
+    const apiUrl = `${environment.apiUrl}/products`; // URL API POST
         this.http.post(apiUrl, this.newProduct, {responseType: 'text'}).subscribe({
       next: (response) => {
         console.log('Sản phẩm đã được tạo:', response);
@@ -53,7 +54,7 @@ export class AppComponent implements OnInit {
   }
 
   deleteProduct() {
-    const apiUrl = `http://localhost:3000/products/${this.productIdToDelete}`;
+    const apiUrl = `${environment.apiUrl}/products/${this.productIdToDelete}`;
     this.http.delete(apiUrl).subscribe({
       next: (response: any) => {
         console.log('Sản phẩm đã bị xóa:', response);
@@ -61,6 +62,7 @@ export class AppComponent implements OnInit {
       },
       error: (error: any) => {
         console.error('Lỗi khi xóa sản phẩm:', error);
+        this.getProducts(); // Tải lại danh sách sản phẩm sau khi xóa
       },
     });
   }
@@ -70,10 +72,10 @@ export class AppComponent implements OnInit {
 
 
   // register() {
-  //   this.http.post('http://localhost:3000/register', {
+  //   this.http.post(`${environment.apiUrl}/register`, {
   //     username: 'testuser',
   //     email: 'test@example.com',
   //     password: 'password123'
   //   }).subscribe(response => console.log(response));
   // }
-}
+}

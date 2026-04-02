@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProductService {
-  private baseUrl = 'http://localhost:3000/products';
+  private baseUrl = `${environment.apiUrl}/products`;
 
   constructor(private http: HttpClient) {}
 
@@ -20,9 +21,9 @@ export class ProductService {
     return this.http.get<any[]>(`${this.baseUrl}/pageGiay`);
   }
 
-  // API: Lấy danh sách sản phẩm trang 3
+  // API: Lấy danh sách phụ kiện
   getGiftProducts(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.baseUrl}/pageQuaTet`);
+    return this.http.get<any[]>(`${this.baseUrl}/pageAccessories`);
   }
   getProducts() {
     const token = localStorage.getItem('token');
@@ -32,7 +33,7 @@ export class ProductService {
     });
 
     return this.http.get(
-      'http://localhost:3000/products',
+      this.baseUrl,
       { headers }
     );
   }

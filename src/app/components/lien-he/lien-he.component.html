@@ -1,71 +1,140 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-  </head>
-  <body>
-    <app-header></app-header>
-    <div
-      style="
-        background-image: url('assets/images/converted-1-scaled.webp');
-        background-repeat: no-repeat;
-        background-size: cover;
-      "
-    >
-      <div class="news-and-offers container">
-        <div class="special-offers">
-          <div class="info">
-            <img
-              src="assets/images/img-contact.png"
-              alt="Special Offers"
-              class="offer-image"
-            />
-            <h3 style="font-weight: bold;">CÔNG TY TNHH SẢN XUẤT VÀ THƯƠNG MẠI QUÀ XUÂN</h3>
-            <br />
-            <h5 class="info1">
-              <i class="fa-solid fa-location-dot"></i> Địa Chỉ:
-              <a href="" 
-                >720A Điện Biên Phủ, Vinhomes Tân Cảng, Bình Thạnh, Hồ Chí
-                Minh</a
-              >
-            </h5>
-            <h5 class="info1"><i class="fa-solid fa-phone"></i> Hotline: <a href="" class="info1">0902223209</a></h5>
-            <h5 class="info1">
-              <i class="fa-solid fa-envelope"></i> Mail:
-              <a href="" >quaxuannammoi{{ "@" }}gmail.com</a>
-            </h5>
+<app-header></app-header>
+
+<main class="page-container" style="background-color: #f8fbff; padding: 60px 0">
+  <div class="container container-contact">
+    <div class="row g-5 align-items-stretch">
+      <!-- Contact Info Section -->
+      <div class="col-lg-6">
+        <div
+          class="contact-info aura-card p-4 p-md-5 bg-white border-0 shadow-lg h-100"
+          style="border-radius: 24px"
+        >
+          <h2 class="display-6 fw-bold text-primary mb-4">Kết Nối Với Aura</h2>
+          <p class="text-muted mb-5">
+            Chúng tôi luôn sẵn sàng lắng nghe và hỗ trợ bạn mọi lúc.
+          </p>
+
+          <div class="info-list">
+            <div class="info-item d-flex align-items-start mb-4" style="cursor: pointer;">
+              <div class="aura-contact-icon me-3 shadow-sm flex-shrink-0 d-flex align-items-center justify-content-center">
+                <i class="fa-solid fa-location-dot"></i>
+              </div>
+              <div class="pt-1">
+                <span class="d-block fw-bold text-dark mb-1">Địa Chỉ Trụ Sở</span>
+                <span class="text-muted small lh-sm d-block"
+                  >Đỗ Mười/331A-331B An Phú Đông 10, An Phú Đông, <br> Quận 12, Hồ Chí Minh, Việt Nam</span
+                >
+              </div>
+            </div>
+
+            <div class="info-item d-flex align-items-start mb-4" style="cursor: pointer;">
+              <div class="aura-contact-icon me-3 shadow-sm flex-shrink-0 d-flex align-items-center justify-content-center">
+                <i class="fa-solid fa-phone"></i>
+              </div>
+              <div class="pt-1">
+                <span class="d-block fw-bold text-dark mb-1">Hotline Hỗ Trợ</span>
+                <span class="text-muted underline small">0902 223 209</span>
+              </div>
+            </div>
+
+            <div class="info-item d-flex align-items-start mb-4" style="cursor: pointer;">
+              <div class="aura-contact-icon me-3 shadow-sm flex-shrink-0 d-flex align-items-center justify-content-center">
+                <i class="fa-solid fa-envelope"></i>
+              </div>
+              <div class="pt-1">
+                <span class="d-block fw-bold text-dark mb-1">Email Liên Hệ</span>
+                <span class="text-muted small">support&#64;aurafashion.vn</span>
+              </div>
+            </div>
           </div>
 
-          <div class="offer-content">
-            <img src="assets/images/title.png" alt="title" class="img-title2" />
-            <h2 class="section-title">Hãy Liên Hệ Với Chúng Tôi Để Nhận Ưu Đãi Đặc Biệt</h2>
-            <p style="font-weight: 500">
-              Để lại thông tin để nhận ưu đãi độc đáo của chúng tôi ngay hôm
-              nay.
-            </p>
-            <form (submit)="onSubmit()">
-              <input
-                type="text"
-                placeholder="Họ và tên"
-                class="input-field"
-                [(ngModel)]="user.name"
-                name="name"
-              />
-              <input
-                type="text"
-                placeholder="Số điện thoại"
-                class="input-field"
-                [(ngModel)]="user.phone"
-                name="phone"
-              />
-              <button type="submit" class="submit-btn">Nhận ưu đãi</button>
-            </form>
+          <hr class="my-5 opacity-25" />
+
+          <div class="social-connect">
+            <h6 class="fw-bold mb-3">Theo dõi chúng tôi tại:</h6>
+            <div class="d-flex gap-3">
+              <a
+                href="#"
+                class="btn btn-outline-primary btn-sm rounded-circle d-flex align-items-center justify-content-center"
+                style="width: 40px; height: 40px;"
+                ><i class="fab fa-facebook-f"></i
+              ></a>
+              <a
+                href="#"
+                class="btn btn-outline-primary btn-sm rounded-circle d-flex align-items-center justify-content-center"
+                style="width: 40px; height: 40px;"
+                ><i class="fab fa-instagram"></i
+              ></a>
+              <a
+                href="#"
+                class="btn btn-outline-primary btn-sm rounded-circle d-flex align-items-center justify-content-center"
+                style="width: 40px; height: 40px;"
+                ><i class="fab fa-tiktok"></i
+              ></a>
+            </div>
           </div>
         </div>
       </div>
+
+      <!-- Contact Form Section -->
+      <div class="col-lg-6">
+        <div
+          class="contact-form p-4 p-md-5 pb-5 bg-white border-0 shadow-lg h-100"
+          style="border-radius: 24px"
+        >
+          <h3 class="fw-bold text-secondary mb-3">Gửi Lời Nhắn</h3>
+          <p class="text-muted small mb-4">
+            Để lại thông tin để nhận tư vấn và ưu đãi độc quyền 30% hôm nay.
+          </p>
+
+          <form (submit)="onSubmit()" class="aura-form">
+            <div class="mb-4">
+              <label class="form-label fw-bold small text-muted"
+                >Họ và tên</label
+              >
+              <input
+                type="text"
+                placeholder="Nhập họ và tên của bạn"
+                class="form-control bg-light border-0 py-3 rounded-3"
+                [(ngModel)]="user.name"
+                name="name"
+                required
+              />
+            </div>
+            <div class="mb-4">
+              <label class="form-label fw-bold small text-muted"
+                >Số điện thoại / Email</label
+              >
+              <input
+                type="text"
+                placeholder="Nhập thông tin liên lạc"
+                class="form-control bg-light border-0 py-3 rounded-3"
+                [(ngModel)]="user.phone"
+                name="phone"
+                required
+              />
+            </div>
+            <div class="mb-4">
+              <label class="form-label fw-bold small text-muted"
+                >Nội dung tư vấn</label
+              >
+              <textarea
+                class="form-control bg-light border-0 py-3 rounded-3"
+                rows="3"
+                placeholder="Bạn đang quan tâm đến bộ sưu tập nào?"
+              ></textarea>
+            </div>
+            <button
+              type="submit"
+              class="btn btn-primary w-100 mt-5 fw-bold shadow-lg aura-btn-submit d-flex align-items-center justify-content-center"
+            >
+              GỬI LIÊN HỆ NGAY
+            </button>
+          </form>
+        </div>
+      </div>
     </div>
-    <app-footer></app-footer>
-  </body>
-</html>
+  </div>
+</main>
+
+<app-footer></app-footer>

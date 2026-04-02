@@ -1,58 +1,107 @@
-.form-box {
-  background: #fff;
-  padding: 16px;
-  margin-bottom: 20px;
-  border-radius: 10px;
-  box-shadow: 0 2px 6px rgba(0,0,0,.1);
+.admin-products-wrap {
+  animation: fadeIn 0.5s ease;
 }
 
-.form-box input,
-.form-box textarea {
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* FORM OVERLAY (MODAL) */
+.form-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(17, 24, 39, 0.7);
+  backdrop-filter: blur(4px);
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.form-card {
   width: 100%;
-  padding: 8px;
-  margin: 6px 0;
-  border-radius: 6px;
-  border: 1px solid #ccc;
+  max-width: 550px;
+  background: white;
+  max-height: 90vh;
+  overflow-y: auto;
 }
 
-.btn {
+.form-label {
+  color: #374151;
+  margin-bottom: 6px;
+}
+
+.form-control {
+  border: 1px solid #e5e7eb;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 0.95rem;
+}
+
+.form-control:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* TABLE STYLING */
+.card {
+  border: 1px solid #f3f4f6 !important;
+}
+
+.table thead th {
+  font-weight: 600;
+  color: #6b7280;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 16px;
+  border-bottom: 2px solid #f3f4f6;
+}
+
+.product-row td {
+  padding: 16px;
+  border-bottom: 1px solid #f9fafb;
+}
+
+.product-thumb img {
+  width: 48px;
+  height: 48px;
+  object-fit: cover;
+}
+
+.badge {
   padding: 6px 12px;
   border-radius: 6px;
-  border: none;
-  cursor: pointer;
-  margin-right: 6px;
-}
-
-.btn.primary {
-  background: #1976d2;
-  color: #fff;
-}
-
-.btn.edit {
-  background: #0288d1;
-  color: #fff;
-}
-
-.btn.cancel {
-  background: #9e9e9e;
-  color: #fff;
-}
-
-.btn.danger {
-  background: #e53935;
-  color: #fff;
-}
-
-.btn.danger:hover {
-  background: #c62828;
-}
-
-.product-name {
-  text-align: left;
   font-weight: 500;
+  font-size: 0.75rem;
 }
 
-.price {
-  color: #2e7d32;
-  font-weight: 600;
+.bg-success-subtle { background-color: #ecfdf5 !important; }
+.bg-warning-subtle { background-color: #fffbeb !important; }
+
+.btn-group .btn {
+  padding: 6px 10px;
+  transition: all 0.2s;
+}
+
+.btn-group .btn:hover {
+  background-color: #f3f4f6;
+  transform: scale(1.1);
+}
+
+.btn-outline-danger:hover {
+  background-color: #fef2f2 !important;
+  color: #dc2626 !important;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
 }

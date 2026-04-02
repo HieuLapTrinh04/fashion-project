@@ -1,63 +1,17 @@
-.form-login {
-    display: flex;
-    flex-direction: column;
-    margin-top: 50px;
-}
-.container-login {
-    width: 500px;
-    height: 500px;
-    display: flex;
-    flex-direction: column;
-    background-color: rgb(244, 96, 96);
-    color: white;
-    border-radius: 50px;
-    padding: 20px;
-}
-.container-login h2, h5 {
-    text-align: center;
+.auth-card {
+  transition: transform 0.3s ease;
 }
 
-.container-login h5 {
-    font-weight: 400;
+.input-group-text {
+  border-radius: 12px 0 0 12px !important;
 }
 
-.container-login h5 a {
-    color: white;
-    text-decoration: none;
-}
-.container-login h5 a:hover {
-    color: black;                                                                                                                                                                                                                                                                                   
-    text-decoration: underline;
+.form-control {
+  border-radius: 0 12px 12px 0 !important;
 }
 
-.form-login label {
-    font-weight: 500;
-    font-size: 20px;
-    margin-bottom: 5px;
-}
-#login-email {
-    margin-bottom: 20px;
-    height: 50px;
-    border-radius: 15px;
-    padding: 10px;
-}
-
-#login-password {
-    margin-bottom: 30px;   
-    height: 50px;
-    padding: 10px;
-    border-radius: 15px;
-}
- 
-.submit {
-    background-color: rgb(53, 230, 18);
-    color: blcak;
-    border: none;
-    border-radius: 15px;
-    padding: 10px 20px;
-    cursor: pointer;
-    margin-top: 20px;
-}
-.submit:hover {
-    background-color: rgb(46, 186, 18);
-}
+.form-control:focus {
+  background-color: #fff !important;
+  box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.1);
+  border-color: #007bff !important;
+}

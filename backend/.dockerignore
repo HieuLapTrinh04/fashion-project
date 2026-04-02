@@ -1,0 +1,17 @@
+node_modules
+npm-debug.log
+.env
+uploads/*
+seed_new_arrivals.js
+inspect_products.js
+inspect_db.js
+migrate_db.js
+migrate_cart.js
+migrate_orders_v2.js
+migration_gallery.js
+create_order_items.js
+db-migration.js
+Dockerfile
+.dockerignore
+.git
+.gitignore

@@ -15,19 +15,19 @@ Swiper.use([Pagination, Autoplay, EffectFade]);
 export class HeroComponent {
   slides = [
     {
-      image: 'https://giftsonlineshop.weba.vn/shop/images/giftsonlineshop/slider/bannerso1.jpg',
-      title: 'Xuân Đến Rộn Ràng',
-      description: 'Khám phá những món quà đặc biệt cho người thân yêu.'
+      image: 'https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=2070&auto=format&fit=crop',
+      title: 'Phong Cách Tối Giản Aura',
+      description: 'Sự thuần khiết trong từng đường nét thiết kế.'
     },
     {
-      image: 'https://giftsonlineshop.weba.vn/shop/images/giftsonlineshop/slider/bannerso3.jpg',
-      title: 'Khuyến Mãi Hấp Dẫn',
-      description: 'Đừng bỏ lỡ ưu đãi lớn dịp năm mới.'
+      image: 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=2070&auto=format&fit=crop',
+      title: 'Bộ Sưu Tập Mùa Xuân',
+      description: 'Cảm hứng từ bầu trời xanh và những đám mây trắng.'
     },
     {
-      image: 'https://giftsonlineshop.weba.vn/shop/images/giftsonlineshop/slider/banner2.jpg',
-      title: 'Phong Cách Tết',
-      description: 'Những sản phẩm mang phong cách hiện đại và truyền thống.'
+      image: 'https://images.unsplash.com/photo-1523381210434-271e8be1f52b?q=80&w=2070&auto=format&fit=crop',
+      title: 'Trải Nghiệm Êm Ái',
+      description: 'Chất liệu cao cấp, mang lại sự thoải mái tuyệt đối cho bạn.'
     }
   ];
   ngAfterViewInit() {

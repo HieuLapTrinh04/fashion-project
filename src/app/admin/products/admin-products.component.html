@@ -1,48 +1,166 @@
-<div class="admin-container">
-  <h2>📦 QUẢN LÝ SẢN PHẨM</h2>
-
-  <!-- FORM -->
-  <div class="form-box">
-    <h3>{{ editing ? '✏️ Sửa sản phẩm' : '➕ Thêm sản phẩm' }}</h3>
-
-    <input placeholder="Tên sản phẩm" [(ngModel)]="form.name" />
-    <input type="number" placeholder="Giá" [(ngModel)]="form.price" />
-    <input type="number" placeholder="Số lượng" [(ngModel)]="form.stock" />
-    <input placeholder="Link hình ảnh" [(ngModel)]="form.image" />
-    <textarea placeholder="Mô tả" [(ngModel)]="form.description"></textarea>
-
-    <button class="btn primary" (click)="submit()">
-      {{ editing ? 'Cập nhật' : 'Thêm' }}
-    </button>
-
-    <button *ngIf="editing" class="btn cancel" (click)="reset()">
-      Hủy
+<div class="admin-products-wrap">
+  <!-- Header Action -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h2 class="fw-bold mb-1">Quản Lý Sản Phẩm</h2>
+      <p class="text-muted small mb-0">Quản lý danh mục hàng hóa của Aura Fashion</p>
+    </div>
+    <button class="btn btn-primary px-4 py-2 rounded-3 shadow-sm" (click)="reset(); showForm = true">
+      <i class="fa-solid fa-plus me-2"></i> Thêm Sản Phẩm
     </button>
   </div>
 
-  <!-- TABLE -->
-  <table class="admin-table">
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Tên sản phẩm</th>
-        <th>Giá</th>
-        <th>Hành động</th>
-      </tr>
-    </thead>
+  <!-- Form Overlay (Simulated Modal) -->
+  <div class="form-overlay" *ngIf="showForm || editing">
+    <div class="form-card shadow-lg border-0 rounded-4 p-4">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h3 class="fw-bold mb-0">{{ editing ? 'Cập Nhật Sản Phẩm' : 'Thêm Sản Phẩm Mới' }}</h3>
+        <button class="btn-close" (click)="reset(); showForm = false"></button>
+      </div>
 
-    <tbody>
-      <tr *ngFor="let p of products">
-        <td>{{ p.id }}</td>
-        <td class="product-name">{{ p.name }}</td>
-        <td class="price">{{ p.price | number }} đ</td>
-        <td class="actions">
-          <button class="btn edit" (click)="edit(p)">✏️ Sửa</button>
-          <button class="btn danger" (click)="deleteProduct(p.id)">
-            🗑 Xóa
-          </button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+      <div class="row g-3">
+        <div class="col-md-12">
+          <label class="form-label small fw-bold">Tên sản phẩm</label>
+          <input class="form-control" placeholder="VD: Áo Khoác Biker Premium" [(ngModel)]="form.name" />
+        </div>
+        <div class="col-md-6">
+          <label class="form-label small fw-bold">Danh mục</label>
+          <select class="form-select" [(ngModel)]="form.category">
+            <option value="Váy">Váy</option>
+            <option value="Đầm">Đầm</option>
+            <option value="Áo sơ mi">Áo sơ mi</option>
+            <option value="Suit">Suit</option>
+            <option value="Blazer">Blazer</option>
+            <option value="Quần">Quần</option>
+            <option value="Phụ kiện">Phụ kiện</option>
+            <option value="Khác">Khác</option>
+          </select>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label small fw-bold">Giới tính</label>
+          <select class="form-select" [(ngModel)]="form.gender">
+            <option value="Nam">Nam</option>
+            <option value="Nữ">Nữ</option>
+            <option value="Cả hai">Cả hai</option>
+          </select>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label small fw-bold">Thương hiệu</label>
+          <input class="form-control" placeholder="Aura Fashion" [(ngModel)]="form.brand" />
+        </div>
+        <div class="col-md-6">
+          <label class="form-label small fw-bold">Giá bán (VNĐ)</label>
+          <input type="number" class="form-control" placeholder="0" [(ngModel)]="form.price" (ngModelChange)="calculatePrice('price')" />
+        </div>
+        <div class="col-md-6">
+          <label class="form-label small fw-bold">Giá gốc (để gạch ngang)</label>
+          <input type="number" class="form-control" placeholder="0" [(ngModel)]="form.old_price" (ngModelChange)="calculatePrice('old_price')" />
+        </div>
+        <div class="col-md-6">
+          <label class="form-label small fw-bold">Giảm giá (%)</label>
+          <input type="number" class="form-control" placeholder="0" [(ngModel)]="form.discount_percent" (ngModelChange)="calculatePrice('discount')" />
+        </div>
+        <div class="col-md-6">
+          <label class="form-label small fw-bold">Số lượng tồn kho</label>
+          <input type="number" class="form-control" placeholder="0" [(ngModel)]="form.stock" />
+        </div>
+        <div class="col-md-6">
+          <label class="form-label small fw-bold">Kích thước (Size) - Cách nhau bằng dấu phẩy</label>
+          <input class="form-control" placeholder="S,M,L,XL,XXL" [(ngModel)]="form.sizes" />
+        </div>
+
+        <div class="col-md-6">
+          <label class="form-label small fw-bold">Link hình ảnh chính</label>
+          <input class="form-control" placeholder="https://..." [(ngModel)]="form.image" />
+        </div>
+        <div class="col-md-6">
+          <label class="form-label small fw-bold">Bộ sưu tập ảnh (URLs - cách nhau bằng dấu phẩy)</label>
+          <input class="form-control" placeholder="url1, url2, url3..." [(ngModel)]="form.images" />
+        </div>
+        <div class="col-md-12">
+          <label class="form-label small fw-bold">Mô tả sản phẩm</label>
+          <textarea class="form-control" rows="2" placeholder="Nhập mô tả..." [(ngModel)]="form.description"></textarea>
+        </div>
+      </div>
+
+      <div class="d-flex gap-2 mt-4 pt-2">
+        <button class="btn btn-primary flex-grow-1 py-2 fw-bold" (click)="submitAndClose()">
+          {{ editing ? 'Lưu Thay Đổi' : 'Xác Nhận Thêm' }}
+        </button>
+        <button class="btn btn-light px-4" (click)="reset(); showForm = false">Hủy</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Product Table Card -->
+  <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+    <div class="table-responsive">
+      <table class="table table-hover align-middle mb-0">
+        <thead class="bg-light">
+          <tr>
+            <th class="ps-4">Sản Phẩm</th>
+            <th>Phân Loại</th>
+            <th>Giới Tính</th>
+            <th>Giá</th>
+            <th>Tồn Kho</th>
+            <th>Trạng Thái</th>
+            <th class="text-end pe-4">Hành Động</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let p of products" class="product-row">
+            <td class="ps-4">
+              <div class="d-flex align-items-center">
+                <div class="product-thumb me-3">
+                  <img [src]="p.image" [alt]="p.name" class="rounded-3 shadow-none border" onerror="this.src='https://placehold.co/50x50/f3f4f6/6b7280?text=No+Img'">
+                </div>
+                <div>
+                  <h6 class="fw-bold mb-0 text-dark">{{ p.name }}</h6>
+                  <span class="text-muted small">ID: #{{ p.id }} | {{ p.brand }}</span>
+                </div>
+              </div>
+            </td>
+            <td>
+                <span class="text-muted small fw-bold text-uppercase">{{ p.category }}</span>
+            </td>
+            <td>
+                <span class="badge" [ngClass]="{
+                    'bg-info-subtle text-info': p.gender === 'Nam',
+                    'bg-danger-subtle text-danger': p.gender === 'Nữ',
+                    'bg-secondary-subtle text-secondary': p.gender === 'Cả hai'
+                }">{{ p.gender }}</span>
+            </td>
+            <td class="fw-bold text-dark">
+                {{ p.price | number:'1.0-0' }} VNĐ
+                <div class="text-muted small text-decoration-line-through" *ngIf="p.old_price" style="font-size: 0.75rem;">
+                    {{ p.old_price | number:'1.0-0' }} VNĐ
+                </div>
+            </td>
+            <td>{{ p.stock }} item</td>
+            <td>
+              <span class="badge" [ngClass]="p.stock > 10 ? 'bg-success-subtle text-success' : 'bg-warning-subtle text-warning'">
+                {{ p.stock > 10 ? 'In Stock' : 'Low Stock' }}
+              </span>
+            </td>
+            <td class="text-end pe-4">
+              <div class="btn-group">
+                <button class="btn btn-sm btn-outline-secondary border-0 me-1" (click)="edit(p)">
+                  <i class="fa-solid fa-pen-to-square"></i>
+                </button>
+                <button class="btn btn-sm btn-outline-danger border-0" (click)="deleteProduct(p.id)">
+                  <i class="fa-solid fa-trash"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+          
+          <tr *ngIf="products.length === 0">
+              <td colspan="5" class="text-center py-5">
+                  <div class="text-muted">Không tìm thấy sản phẩm nào.</div>
+              </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </div>

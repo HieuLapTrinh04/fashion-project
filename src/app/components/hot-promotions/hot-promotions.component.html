@@ -1,0 +1,107 @@
+<app-header></app-header>
+
+<main class="promo-page py-5">
+  <!-- Hero Promo Section -->
+  <section class="promo-hero py-6 mb-5 text-center text-white rounded-5 shadow-lg mx-3" 
+           style="background: linear-gradient(135deg, #ff416c 0%, #ff4b2b 100%);">
+    <div class="container" data-aos="zoom-in">
+      <div class="badge bg-white text-danger fw-bold px-3 py-2 rounded-pill mb-3 shadow-sm">
+        <i class="fa-solid fa-fire me-2"></i> SIÊU ƯU ĐÃI THÁNG 4
+      </div>
+      <h1 class="display-3 fw-bold mb-3 ls-n1">KHUYẾN MÃI HOT</h1>
+      <p class="lead mb-4 opacity-90 mx-auto" style="max-width: 600px;">
+        Đừng bỏ lỡ cơ hội sở hữu những món đồ hiệu hàng đầu với mức giá ưu đãi cực sốc. Chỉ diễn ra trong thời gian ngắn!
+      </p>
+      
+      <!-- Countdown Timer -->
+      <div class="countdown-container d-flex justify-content-center gap-3 mb-5 mt-4">
+        <div class="time-box text-center">
+          <div class="time-val">{{ hours | number:'2.0-0' }}</div>
+          <div class="time-label text-uppercase">Giờ</div>
+        </div>
+        <div class="time-box text-center">
+          <div class="time-val">{{ minutes | number:'2.0-0' }}</div>
+          <div class="time-label text-uppercase">Phút</div>
+        </div>
+        <div class="time-box text-center">
+          <div class="time-val">{{ seconds | number:'2.0-0' }}</div>
+          <div class="time-label text-uppercase">Giây</div>
+        </div>
+      </div>
+      
+      <button routerLink="/products" class="btn btn-white btn-lg rounded-pill px-5 fw-bold shadow">Khám Phá Toàn Bộ</button>
+    </div>
+  </section>
+
+  <div class="container">
+    <div class="row align-items-center mb-5" data-aos="fade-up">
+      <div class="col-md-6 text-center text-md-start">
+        <h2 class="fw-bold text-dark border-start border-primary border-4 ps-3 mb-0">TOP DEAL GIẢM SÂU NHẤT</h2>
+      </div>
+      <div class="col-md-6 text-center text-md-end mt-3 mt-md-0">
+        <span class="text-muted small"><i class="fa-solid fa-circle-info me-1"></i> Tự động cập nhật các sản phẩm giảm giá mới nhất</span>
+      </div>
+    </div>
+
+    <!-- Loading State -->
+    <div *ngIf="loading" class="text-center py-5 my-5">
+      <div class="spinner-border text-primary pulse" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+      <p class="mt-3 text-muted">Đang săn tìm các ưu đãi tốt nhất cho bạn...</p>
+    </div>
+
+    <!-- Product Grid -->
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 g-4" *ngIf="!loading && promoProducts.length > 0">
+      <div class="col" *ngFor="let product of promoProducts" data-aos="fade-up">
+        <div class="aura-premium-card h-100 shadow-sm border-0 rounded-4 overflow-hidden bg-white">
+          <div class="card-img-wrapper position-relative overflow-hidden" [routerLink]="['/product', product.id]" style="cursor: pointer;">
+            <img [src]="product.image" [alt]="product.name" class="card-img-top aura-img-zoom" />
+            
+            <div class="position-absolute top-0 start-0 m-3" *ngIf="product.discount_percent > 0">
+              <span class="badge bg-danger rounded-pill px-3 py-2 shadow-sm">-{{ product.discount_percent }}%</span>
+            </div>
+            
+            <button class="btn btn-primary btn-add-float position-absolute shadow" 
+                    (click)="addProductToCart(product); $event.stopPropagation()">
+              <i class="fa-solid fa-cart-plus"></i>
+            </button>
+          </div>
+
+          <div class="card-body p-3 d-flex flex-column">
+            <span class="text-primary text-uppercase small fw-bold tracking-wider mb-1" style="font-size: 0.65rem">
+              {{ product.brand || 'Aura Fashion' }}
+            </span>
+            <h6 class="product-name fw-bold text-dark text-truncate mb-2" style="font-size: 0.9rem; cursor: pointer;" [routerLink]="['/product', product.id]">
+              {{ product.name }}
+            </h6>
+            
+            <div class="d-flex align-items-center gap-1 mb-2">
+              <div class="rating-stars text-warning small opacity-75">
+                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+              </div>
+              <span class="text-muted x-small">| Bán {{ product.sold_count || 0 }}+</span>
+            </div>
+
+            <div class="mt-auto pt-2 border-top">
+              <div class="d-flex align-items-center gap-2">
+                <span class="text-primary fw-bold" style="font-size: 1.1rem">{{ product.price | number: '1.0-0' }}₫</span>
+                <small class="text-muted text-decoration-line-through small" *ngIf="product.old_price">{{ product.old_price | number: '1.0-0' }}₫</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Empty State -->
+    <div *ngIf="!loading && promoProducts.length === 0" class="text-center py-5 my-5 shadow-sm rounded-4 border bg-white mx-3">
+      <i class="fa-solid fa-box-open fa-5x text-muted opacity-25 mb-4"></i>
+      <h3 class="fw-bold">Hiện không có ưu đãi Flash Sale</h3>
+      <p class="text-muted">Đừng quên quay lại sau nhé, chúng tôi thường xuyên cập nhật mã mới!</p>
+      <button routerLink="/products" class="btn btn-outline-primary rounded-pill px-5 mt-3">Tiếp Tục Mua Sắm</button>
+    </div>
+  </div>
+</main>
+
+<app-footer></app-footer>

@@ -1,20 +1,107 @@
-<h2>Quản lý người dùng</h2>
+<div class="admin-users-wrap">
+  <!-- Header Action -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h2 class="fw-bold mb-1">Quản Lý Người Dùng</h2>
+      <p class="text-muted small mb-0">Phân quyền và quản lý tài khoản thành viên trong hệ thống Aura Fashion.</p>
+    </div>
+    <button class="btn btn-primary px-4 py-2 rounded-3 shadow-sm" (click)="reset(); showForm = true">
+      <i class="fa-solid fa-user-plus me-2"></i> Thêm Người Dùng
+    </button>
+  </div>
 
-<table>
-  <tr>
-    <th>ID</th>
-    <th>Email</th>
-    <th>Role</th>
-    <th>Hành động</th>
-  </tr>
+  <!-- User Form Overlay (Simulated Modal) -->
+  <div class="form-overlay" *ngIf="showForm || editing">
+    <div class="form-card shadow-lg border-0 rounded-4 p-4">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h3 class="fw-bold mb-0">{{ editing ? 'Cập Nhật Tài Khoản' : 'Tạo Tài Khoản Mới' }}</h3>
+        <button class="btn-close" (click)="reset(); showForm = false"></button>
+      </div>
 
-  <tr *ngFor="let u of users">
-    <td>{{u.id}}</td>
-    <td>{{u.email}}</td>
-    <td>{{u.role}}</td>
-    <td>
-      <button (click)="setRole(u.id,'admin')">Admin</button>
-      <button (click)="setRole(u.id,'user')">User</button>
-    </td>
-  </tr>
-</table>
+      <div class="row g-3">
+        <div class="col-md-12">
+          <label class="form-label small fw-bold">Tên đăng nhập</label>
+          <input class="form-control" placeholder="VD: nguyenvan_a" [(ngModel)]="form.username" />
+        </div>
+        <div class="col-md-12">
+          <label class="form-label small fw-bold">Địa chỉ Email</label>
+          <input type="email" class="form-control" placeholder="example@gmail.com" [(ngModel)]="form.email" />
+        </div>
+        <div class="col-md-12">
+          <label class="form-label small fw-bold">Mật khẩu {{ editing ? '(Để trống nếu không muốn đổi)' : '' }}</label>
+          <input type="password" class="form-control" placeholder="********" [(ngModel)]="form.password" />
+        </div>
+        <div class="col-md-12">
+          <label class="form-label small fw-bold">Vai trò hệ thống</label>
+          <select class="form-select" [(ngModel)]="form.role">
+            <option value="user">User - Khách hàng</option>
+            <option value="admin">Admin - Quản trị viên</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="d-flex gap-2 mt-4 pt-2">
+        <button class="btn btn-primary flex-grow-1 py-2 fw-bold" (click)="submit()">
+          {{ editing ? 'Lưu Thay Đổi' : 'Xác Nhận Tạo' }}
+        </button>
+        <button class="btn btn-light px-4" (click)="reset(); showForm = false">Hủy</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Users Table Card -->
+  <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+    <div class="table-responsive">
+      <table class="table table-hover align-middle mb-0">
+        <thead class="bg-light">
+          <tr>
+            <th class="ps-4">Người Dùng</th>
+            <th>Email</th>
+            <th>Vai Trò</th>
+            <th class="text-end pe-4">Hành Động</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let u of users" class="user-row">
+            <td class="ps-4">
+              <div class="d-flex align-items-center">
+                <div class="user-avatar-rect me-3 bg-primary-subtle text-primary rounded-3 d-flex align-items-center justify-content-center fw-bold" style="width: 40px; height: 40px;">
+                  {{ u.username.substring(0, 1) | uppercase }}
+                </div>
+                <div>
+                  <h6 class="fw-bold mb-0 text-dark">{{ u.username }}</h6>
+                  <span class="text-muted small">ID: #{{ u.id }}</span>
+                </div>
+              </div>
+            </td>
+            <td class="text-muted">{{ u.email }}</td>
+            <td>
+              <span
+                class="badge rounded-pill px-3 py-2"
+                [ngClass]="u.role === 'admin' ? 'bg-primary-subtle text-primary border border-primary-subtle' : 'bg-secondary-subtle text-secondary border border-secondary-subtle'"
+              >
+                {{ u.role | uppercase }}
+              </span>
+            </td>
+            <td class="text-end pe-4">
+              <div class="btn-group">
+                <button class="btn btn-sm btn-outline-secondary border-0 me-1" (click)="edit(u)" title="Chỉnh sửa">
+                  <i class="fa-solid fa-user-pen"></i>
+                </button>
+                <button class="btn btn-sm btn-outline-danger border-0" (click)="deleteUser(u.id)" title="Xóa người dùng">
+                  <i class="fa-solid fa-user-minus"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+          
+          <tr *ngIf="users.length === 0">
+              <td colspan="4" class="text-center py-5">
+                  <div class="text-muted">Không có người dùng nào trong danh sách.</div>
+              </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

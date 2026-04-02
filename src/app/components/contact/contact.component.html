@@ -1,61 +1,79 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-  </head>
-  <body>
-    <div style="background-image: url('assets/images/converted-1-scaled.webp'); background-repeat: no-repeat; background-size: cover;">
-      <div class="news-and-offers container">
-        <!-- Tin tức nổi bật -->
-        <div class="featured-news">
-        <img src="assets/images/title.png" alt="title" class="img-title" />
-          <h2 class="section-title">Tin Tức Nổi Bật</h2>
-          <div class="news-cards">
-            <div class="news-card" *ngFor="let news of newsItems">
-              <img [src]="news.image" alt="news image" class="news-image" />
-              <h3 class="news-title">{{ news.title }}</h3>
-              <p class="news-description">{{ news.description }}</p>
-              <button class="read-more-btn">Xem bài viết</button>
-            </div>
-          </div>
-        </div>
+<section class="newsletter-section py-5" style="background-color: #f8fbff;">
+  <div class="container">
+    <div class="row align-items-center">
+      <!-- Image side -->
+      <div class="col-lg-6 mb-4 mb-lg-0 text-center">
+        <img
+          src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?q=80&w=2073&auto=format&fit=crop"
+          alt="Style & Newsletter"
+          class="img-fluid rounded-4 shadow-lg"
+          style="max-height: 500px; object-fit: cover;"
+        />
+      </div>
 
-        <!-- Nhận ưu đãi đặc biệt -->
-        <div class="special-offers">
-          <img
-            src="assets/images/img-contact.png"
-            alt="Special Offers"
-            class="offer-image"
-          />
-          <div class="offer-content">
-        <img src="assets/images/title.png" alt="title" class="img-title2" />
-            <h2 class="section-title">Nhận Ưu Đãi Đặc Biệt</h2>
-            <p style="font-weight: 500;">
-              Để lại thông tin để nhận ưu đãi độc đáo của chúng tôi ngay hôm
-              nay.
-            </p>
-            <form (submit)="onSubmit()">
+      <!-- Content/Form side -->
+      <div class="col-lg-6 px-lg-5">
+        <div class="newsletter-content">
+          <span class="text-primary fw-bold text-uppercase tracking-wider mb-2 d-block">Đặc Quyền Hội Viên Aura</span>
+          <h2 class="section-title mb-4" style="text-align: left; font-family: 'Playfair Display', serif; color: #1a2a6c; font-style: normal; margin-top: 0; font-size: 3rem;">Nhận Ưu Đãi Đặc Biệt</h2>
+          <p class="text-muted mb-5" style="font-size: 1.1rem; line-height: 1.6;">
+            Trở thành thành viên của <strong>Aura Fashion</strong> ngay hôm nay để nhận thông báo về bộ sưu tập mới nhất và ưu đãi độc quyền 30%.
+          </p>
+
+          <form (submit)="onSubmit()" class="newsletter-form">
+            <div class="mb-3">
               <input
                 type="text"
-                placeholder="Họ và tên"
-                class="input-field"
+                placeholder="Họ và tên của bạn"
+                class="form-control custom-input"
                 [(ngModel)]="user.name"
                 name="name"
+                required
               />
+            </div>
+            <div class="mb-4">
               <input
                 type="text"
-                placeholder="Số điện thoại"
-                class="input-field"
+                placeholder="Số điện thoại hoặc Email"
+                class="form-control custom-input"
                 [(ngModel)]="user.phone"
                 name="phone"
+                required
               />
-              <button type="submit" class="submit-btn">Nhận ưu đãi</button>
-            </form>
+            </div>
+            <button type="submit" class="btn btn-primary btn-lg w-100 shadow-sm" style="background-color: #007bff; border: none; padding: 15px; font-weight: 600; border-radius: 12px;">
+              Đăng Ký Nhận Ưu Đãi
+            </button>
+          </form>
+          
+          <div class="mt-4 text-center text-lg-start">
+             <small class="text-muted">Chúng tôi cam kết bảo mật thông tin của bạn. <a href="#" class="text-primary">Chính sách bảo mật</a></small>
           </div>
         </div>
       </div>
     </div>
-  </body>
-</html>
+  </div>
+</section>
+
+<style>
+  .newsletter-section {
+    border-top: 1px solid #e1e9f5;
+  }
+  .custom-input {
+    border: 1.5px solid #d1d9e6;
+    border-radius: 12px;
+    padding: 15px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    width: 100% !important;
+    display: block !important;
+    box-shadow: none !important;
+  }
+  .custom-input:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.1) !important;
+  }
+  .tracking-wider {
+    letter-spacing: 2px;
+  }
+</style>

@@ -1,0 +1,541 @@
+/* General Layout */
+.product-detail-page {
+  background-color: #fbfbfb;
+  min-height: 80vh;
+}
+
+.container-custom {
+  max-width: 1100px;
+}
+
+/* Breadcrumbs */
+.breadcrumb {
+  display: flex !important;
+  align-items: center !important;
+}
+
+.breadcrumb-item {
+  display: flex;
+  align-items: center;
+  line-height: 1;
+}
+
+.breadcrumb-item a {
+  font-weight: 500;
+  color: #6c757d;
+  transition: color 0.3s ease;
+  vertical-align: middle;
+}
+
+.breadcrum.lightbox-controls button:hover i {
+  color: #007bff !important;
+}
+
+/* SIZE GUIDE MODAL STYLES */
+.size-guide-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(26, 42, 108, 0.4);
+  backdrop-filter: blur(10px);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  animation: fadeIn 0.3s ease;
+}
+
+.modal-content-wrap {
+  width: 100%;
+  max-width: 900px;
+  max-height: 90vh;
+  background: white;
+  border-radius: 24px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: slideUp 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.modal-header-sticky {
+  background: white;
+  border-bottom: 1px solid #f0f4f8;
+  z-index: 10;
+}
+
+.modal-header-sticky h4 {
+  font-family: 'Montserrat', sans-serif;
+  letter-spacing: 1px;
+  color: #1a2a6c;
+}
+
+.btn-close-modal {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #f8fbff;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.btn-close-modal:hover {
+  background: #ff4d4d;
+  color: white;
+  transform: rotate(90deg);
+}
+
+.modal-body-scrollable {
+  overflow-y: auto;
+  flex: 1;
+  scrollbar-width: thin;
+}
+
+.modal-body-scrollable::-webkit-scrollbar {
+  width: 6px;
+}
+
+.modal-body-scrollable::-webkit-scrollbar-thumb {
+  background: #e1e9f5;
+  border-radius: 10px;
+}
+
+.size-section h5 {
+  font-family: 'Montserrat', sans-serif;
+  color: #1a2a6c;
+}
+
+.badge {
+  padding: 8px 12px;
+  border-radius: 8px;
+}
+
+.table th {
+  font-weight: 600;
+  background: #1a2a6c !important;
+  color: white !important;
+  border: none;
+}
+
+.table td {
+  font-size: 0.9rem;
+  color: #4a5568;
+}
+
+.x-small {
+  font-size: 0.75rem;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(30px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@media (max-width: 576px) {
+  .size-guide-modal {
+    padding: 0;
+  }
+  
+  .modal-content-wrap {
+    height: 100%;
+    max-height: 100vh;
+    border-radius: 0;
+  }
+}
+
+.breadcrumb-item a:hover {
+  color: #2563eb !important; /* Brand Blue hover */
+}
+
+.breadcrumb-item.active {
+  color: #333;
+  font-weight: 600;
+}
+
+/* Gallery Styling */
+.main-image-card {
+  height: 550px;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+  border: 1px solid #f0f0f0 !important;
+}
+
+.zoom-container {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: zoom-in;
+}
+
+.main-img-styled {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 15px;
+  transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.zoom-container:hover .main-img-styled {
+  transform: none; /* Removed hover zoom as requested */
+}
+
+/* Navigation Arrows */
+.nav-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.9);
+  border: none;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+  z-index: 10;
+  color: #333;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  opacity: 0;
+}
+
+.main-image-card:hover .nav-arrow {
+  opacity: 1;
+}
+
+.nav-arrow:hover {
+  background: #fff;
+  color: #2563eb;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+}
+
+.nav-arrow.prev { left: 15px; }
+.nav-arrow.next { right: 15px; }
+
+/* Thumbnails */
+.thumbnail-list::-webkit-scrollbar {
+  height: 4px;
+}
+
+.thumbnail-list::-webkit-scrollbar-thumb {
+  background: #eee;
+  border-radius: 10px;
+}
+
+.thumb-item {
+  width: 70px;
+  height: 70px;
+  min-width: 70px;
+  cursor: pointer;
+  background: #fff;
+  transition: all 0.3s ease;
+  opacity: 0.6;
+  border: 1px solid #eee !important;
+}
+
+.thumb-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.thumb-item:hover, .thumb-item.active {
+  opacity: 1;
+  border-color: #2563eb !important;
+  transform: translateY(-2px);
+}
+
+/* Product Info */
+.x-small { font-size: 0.7rem; }
+.tracking-wider { letter-spacing: 1px; }
+
+h2 {
+  font-size: 1.85rem;
+  line-height: 1.25;
+  color: #111827;
+}
+
+.price-section h2 {
+  color: #2563eb; /* Blue Price matched to screenshot */
+}
+
+/* Size Buttons */
+.size-btn-sm {
+  min-width: 48px;
+  height: 42px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  border: 1px solid #e5e7eb;
+  background: #fff;
+  transition: all 0.25s ease;
+  color: #374151;
+}
+
+.size-btn-sm:hover {
+  border-color: #2563eb;
+  color: #2563eb;
+}
+
+.size-btn-sm.active {
+  background-color: #2563eb !important;
+  color: #fff !important;
+  border-color: #2563eb !important;
+  box-shadow: 0 4px 10px rgba(37, 99, 235, 0.2);
+}
+
+/* Actions */
+.btn-primary {
+  height: 52px;
+  background: linear-gradient(135deg, #2563eb, #1d4ed8); /* Blue Gradient matched to screenshot */
+  border: none;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, #1d4ed8, #1e40af);
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 8px 20px rgba(37, 99, 235, 0.25);
+}
+
+/* Trust Badges */
+.badge-item i { 
+  font-size: 1.15rem;
+  color: #2563eb;
+}
+
+/* Responsive */
+@media (max-width: 991.98px) {
+  .product-details-wrap { padding-left: 0 !important; margin-top: 2.5rem; }
+  .main-image-card { height: 420px; }
+}
+
+/* Lightbox Modal */
+.lightbox-overlay {
+  position: fixed;
+  inset: 0 !important;
+  width: 100vw;
+  height: 100vh;
+  background: #000;
+  z-index: 2147483647 !important;
+  display: flex;
+  flex-direction: column;
+  animation: fadeIn 0.4s ease-out;
+  user-select: none;
+  
+  /* FIX: Counteracting 'zoom: 0.85' on body in styles.css */
+  zoom: 1.17647 !important; /* 1 / 0.85 */
+}
+
+.lightbox-content {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.lightbox-image-container {
+  flex: 1;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+  touch-action: none; /* Prevent browser scrolling on mobile */
+  cursor: grab;
+}
+
+.lightbox-image-container:active {
+  cursor: grabbing;
+}
+
+.lightbox-img {
+  max-width: 95%;
+  max-height: 95%;
+  object-fit: contain;
+  transition: transform 0.1s linear; /* Short duration for smoothness during drag */
+  pointer-events: none; /* Let container handle events */
+  will-change: transform;
+}
+
+.lightbox-img.grabbing {
+  transition: none; /* Immediate response during heavy drag */
+}
+
+/* Modal Controls */
+.lightbox-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 2rem;
+  cursor: pointer;
+  z-index: 10001;
+  transition: transform 0.3s ease;
+}
+
+.lightbox-close:hover {
+  transform: scale(1.2);
+  color: #ef4444;
+}
+
+.lightbox-nav-btns .lightbox-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  color: #fff;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 10001;
+}
+
+.lightbox-nav:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-50%) scale(1.1);
+}
+
+.lightbox-nav.prev { left: 40px; }
+.lightbox-nav.next { right: 40px; }
+
+.lightbox-counter {
+  position: absolute;
+  bottom: 100px; /* Moved up slightly */
+  background: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  z-index: 10001;
+}
+
+.lightbox-pagination {
+  position: absolute;
+  bottom: 80px;
+  display: flex;
+  gap: 8px;
+  z-index: 10001;
+}
+
+.pg-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.pg-dot.active {
+  background: #2563eb;
+  transform: scale(1.3);
+}
+
+.lightbox-controls {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(255, 255, 255, 0.1);
+  padding: 8px 18px;
+  border-radius: 40px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  color: #fff;
+  backdrop-filter: blur(4px);
+  z-index: 10001;
+}
+
+.lightbox-controls button {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.zoom-label {
+  min-width: 50px;
+  text-align: center;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+/* Modal Thumbnails */
+.lightbox-thumbnails {
+  position: absolute;
+  bottom: 20px;
+  display: flex;
+  gap: 12px;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  z-index: 10001;
+}
+
+.lt-thumb {
+  width: 60px;
+  height: 60px;
+  border-radius: 8px;
+  border: 2px solid transparent;
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.lt-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.lt-thumb.active {
+  border-color: #2563eb;
+  transform: translateY(-5px);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Swipe fallback for desktop visuals */
+@media (max-width: 768px) {
+  .lightbox-nav-btns { display: none; }
+  .lightbox-controls { bottom: 100px; }
+  .lightbox-thumbnails { max-width: 90%; overflow-x: auto; }
+}
+
+
+

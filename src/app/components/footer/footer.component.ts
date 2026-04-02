@@ -3,17 +3,18 @@ import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-footer',
+  standalone: true,
   imports: [RouterLink],
   templateUrl: './footer.component.html',
   styleUrl: './footer.component.css',
 })
 export class FooterComponent {
   companyInfo = {
-    name: 'CÔNG TY TNHH SẢN XUẤT VÀ THƯƠNG MẠI QUÀ XUÂN',
+    name: 'Aura Fashion',
     address:
       '720A Điện Biên Phủ, Vinhomes Tân Cảng, Bình Thạnh, Hồ Chí Minh',
-    hotline: '0902223209',
-    email: 'quaxuannammoi@gmail.com.vn',
+    hotline: '1900 123 456',
+    email: 'support@aurafashion.vn',
     paymentIcons: [
       'assets/images/visa.svg',
       'assets/images/mastercard.svg',
@@ -22,9 +23,6 @@ export class FooterComponent {
     ],
   };
   menuWeb = [
-    { name: 'Trang chủ', link: '/' },
-    { name: 'Giỏ hàng', link: '/cart' },
-    { name: 'Thanh toán', link: '/checkout' },
     { name: 'Liên hệ', link: '/contact' },
   ];
 

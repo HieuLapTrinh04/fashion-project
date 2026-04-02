@@ -1,0 +1,361 @@
+<app-header></app-header>
+
+<main class="product-detail-page py-4">
+  <div class="container container-custom" *ngIf="product; else loadingTemplate">
+    <!-- Breadcrumbs -->
+    <nav aria-label="breadcrumb" class="mb-3">
+      <ol class="breadcrumb mb-0">
+        <li class="breadcrumb-item"><a routerLink="/" class="text-decoration-none text-muted small">Trang Chủ</a></li>
+        <li class="breadcrumb-item"><a routerLink="/products" class="text-decoration-none text-muted small">Sản Phẩm</a></li>
+        <li class="breadcrumb-item active small" aria-current="page">{{ product.name }}</li>
+      </ol>
+    </nav>
+
+    <div class="row g-4">
+      <!-- Left: Column for Image Gallery -->
+      <div class="col-lg-6">
+        <div class="gallery-container">
+          <div class="main-image-card border-0 rounded-3 overflow-hidden bg-white shadow-sm mb-3 position-relative">
+            <div class="zoom-container" (click)="openLightbox(activeIndex)">
+              <img [src]="activeImage" [alt]="product.name" class="img-fluid main-img-styled" id="mainProdImg">
+            </div>
+            
+            <!-- Navigation Arrows -->
+            <button class="nav-arrow prev" (click)="prevImage()" *ngIf="galleryImages.length > 1">
+              <i class="fa-solid fa-chevron-left"></i>
+            </button>
+            <button class="nav-arrow next" (click)="nextImage()" *ngIf="galleryImages.length > 1">
+              <i class="fa-solid fa-chevron-right"></i>
+            </button>
+
+            <div class="position-absolute top-0 start-0 m-2" *ngIf="product.discount_percent > 0">
+              <span class="badge bg-danger rounded-pill px-2 py-1 shadow-sm small">-{{ product.discount_percent }}%</span>
+            </div>
+          </div>
+
+          <!-- Thumbnails -->
+          <div class="thumbnail-list d-flex gap-2 overflow-auto pb-2" *ngIf="galleryImages.length > 1">
+            <div 
+              *ngFor="let img of galleryImages; let i = index" 
+              class="thumb-item rounded-2 border overflow-hidden"
+              [class.active]="activeIndex === i"
+              (click)="setActiveImage(i)">
+              <img [src]="img" class="img-fluid">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Column for Product Info -->
+      <div class="col-lg-6">
+        <div class="product-details-wrap ps-lg-3">
+          <div class="mb-1">
+            <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-2 py-1 fw-bold x-small text-uppercase tracking-wider">
+              {{ product.brand || 'Aura Fashion' }}
+            </span>
+          </div>
+          
+          <h2 class="fw-bold text-dark mb-2">{{ product.name }}</h2>
+          
+          <div class="d-flex align-items-center gap-2 mb-3">
+            <div class="rating-stars text-warning small">
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star-half-stroke"></i>
+            </div>
+            <span class="text-muted x-small">({{ product.rating || '4.8' }}/5) | Đã bán {{ product.sold_count || '120' }}+</span>
+          </div>
+
+          <div class="price-section mb-4 d-flex align-items-end gap-2">
+            <h2 class="text-primary fw-bold mb-0">{{ product.price | number:'1.0-0' }}₫</h2>
+            <span class="text-muted text-decoration-line-through mb-1 small" *ngIf="product.old_price">
+              {{ product.old_price | number:'1.0-0' }}₫
+            </span>
+          </div>
+
+          <div class="divider mb-4 border-top opacity-25"></div>
+
+          <!-- SIZE SELECTOR -->
+          <div class="size-selector mb-4">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <h6 class="fw-bold mb-0 small">Chọn Kích Thước (Size)</h6>
+              <a href="javascript:void(0)" class="text-primary x-small text-decoration-none fw-bold" (click)="toggleSizeGuideModal()">Bảng quy đổi size</a>
+            </div>
+            <div class="d-flex flex-wrap gap-2">
+              <button 
+                *ngFor="let size of availableSizes"
+                class="btn btn-outline-dark size-btn-sm rounded-2"
+                [class.active]="selectedSize === size"
+                (click)="selectSize(size)">
+                {{ size }}
+              </button>
+            </div>
+          </div>
+
+          <!-- ACTIONS -->
+          <div class="actions-section mb-4 mt-4">
+             <div class="d-flex align-items-center gap-3">
+               <div class="qty-control d-flex align-items-center bg-light rounded-pill px-2 border">
+                 <button class="btn btn-link text-dark p-0 px-2" (click)="decrementQty()"><i class="fa-solid fa-minus small"></i></button>
+                 <span class="fw-bold px-1 small" style="min-width: 30px; text-align: center;">{{ quantity }}</span>
+                 <button class="btn btn-link text-dark p-0 px-2" (click)="incrementQty()"><i class="fa-solid fa-plus small"></i></button>
+               </div>
+               <button class="btn btn-primary rounded-pill shadow d-flex align-items-center justify-content-center gap-2 py-2 px-4 flex-grow-1" (click)="addToCart()">
+                 <i class="fa-solid fa-cart-plus"></i>
+                 <span class="fw-bold">Thêm Vào Giỏ Hàng</span>
+               </button>
+             </div>
+          </div>
+
+          <!-- DESCRIPTION -->
+          <div class="description-section mt-4 pt-3 border-top">
+            <h6 class="fw-bold mb-2 small">Mô Tả Sản Phẩm</h6>
+            <p class="text-muted small lh-base mb-0">
+              {{ product.description || 'Sản phẩm cao cấp từ bộ sưu tập Aura Fashion.' }}
+            </p>
+          </div>
+
+          <!-- TRUST BADGES -->
+          <div class="trust-badges mt-4 d-flex gap-3 p-3 bg-light rounded-3">
+            <div class="badge-item d-flex align-items-center gap-2">
+              <i class="fa-solid fa-truck text-primary" style="font-size: 1rem;"></i>
+              <span class="x-small fw-bold text-dark">Giao nhanh</span>
+            </div>
+            <div class="badge-item d-flex align-items-center gap-2">
+              <i class="fa-solid fa-rotate-left text-primary" style="font-size: 1rem;"></i>
+              <span class="x-small fw-bold text-dark">7 ngày đổi trả</span>
+            </div>
+            <div class="badge-item d-flex align-items-center gap-2">
+              <i class="fa-solid fa-circle-check text-primary" style="font-size: 1rem;"></i>
+              <span class="x-small fw-bold text-dark">Chính hãng</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #loadingTemplate>
+    <div class="container my-5 text-center py-5">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+      <p class="mt-3 text-muted">Đang tải thông tin sản phẩm...</p>
+    </div>
+  </ng-template>
+</main>
+
+<!-- LIGHTBOX MODAL (Moved outside main to avoid containment) -->
+<div class="lightbox-overlay" *ngIf="isLightboxOpen" (click)="closeLightbox()">
+  <div class="lightbox-content" (click)="$event.stopPropagation()">
+    <button class="lightbox-close" (click)="closeLightbox()">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+
+    <div class="lightbox-nav-btns" *ngIf="galleryImages.length > 1">
+      <button class="lightbox-nav prev" (click)="prevImage()">
+        <i class="fa-solid fa-chevron-left"></i>
+      </button>
+      <button class="lightbox-nav next" (click)="nextImage()">
+        <i class="fa-solid fa-chevron-right"></i>
+      </button>
+    </div>
+
+    <div class="lightbox-image-container" 
+         (mousedown)="startDrag($event)" 
+         (mousemove)="onDrag($event)" 
+         (mouseup)="stopDrag()" 
+         (mouseleave)="stopDrag()"
+         (touchstart)="startDrag($event)"
+         (touchmove)="onDrag($event)"
+         (touchend)="stopDrag()">
+      <img 
+        [src]="activeImage" 
+        [style.transform]="'translate(' + translateX + 'px, ' + translateY + 'px) scale(' + lightboxScale + ')'"
+        class="lightbox-img" 
+        [class.grabbing]="isDragging"
+        (wheel)="handleWheelZoom($event)"
+        draggable="false">
+    </div>
+
+    <div class="lightbox-counter" *ngIf="galleryImages.length > 0">
+      ẢNH {{ activeIndex + 1 }} / {{ galleryImages.length }}
+    </div>
+
+    <div class="lightbox-pagination" *ngIf="galleryImages.length > 1">
+      <div 
+        *ngFor="let dot of galleryImages; let i = index" 
+        class="pg-dot" 
+        [class.active]="activeIndex === i"
+        (click)="setActiveImage(i)">
+      </div>
+    </div>
+
+    <div class="lightbox-controls">
+      <button (click)="zoomOut()"><i class="fa-solid fa-magnifying-glass-minus"></i></button>
+      <span class="zoom-label">{{ (lightboxScale * 100) | number:'1.0-0' }}%</span>
+      <button (click)="zoomIn()"><i class="fa-solid fa-magnifying-glass-plus"></i></button>
+      <button (click)="resetZoom()"><i class="fa-solid fa-rotate-right"></i></button>
+    </div>
+
+    <div class="lightbox-thumbnails" *ngIf="galleryImages.length > 1">
+      <div 
+        *ngFor="let img of galleryImages; let i = index" 
+        class="lt-thumb" 
+        [class.active]="activeIndex === i"
+        (click)="setActiveImage(i)">
+        <img [src]="img">
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SIZE GUIDE MODAL (FULLSCREEN) -->
+<div class="size-guide-modal" *ngIf="isSizeGuideModalOpen" (click)="toggleSizeGuideModal()">
+  <div class="modal-content-wrap" (click)="$event.stopPropagation()">
+    <!-- Modal Header -->
+    <div class="modal-header-sticky">
+      <div class="d-flex justify-content-between align-items-center w-100 px-4 py-3">
+        <h4 class="fw-bold mb-0">HƯỚNG DẪN CHỌN SIZE</h4>
+        <button class="btn-close-modal" (click)="toggleSizeGuideModal()">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Modal Body -->
+    <div class="modal-body-scrollable px-4 py-4">
+      <!-- Measuring Guide (Collapsed/Small) -->
+      <div class="mb-5 bg-light p-4 rounded-4">
+        <h5 class="fw-bold mb-3 d-flex align-items-center gap-2">
+          <i class="fa-solid fa-ruler"></i> Cách Đo Cơ Thể
+        </h5>
+        <div class="row g-4">
+          <div class="col-md-4">
+            <h6 class="fw-bold small">Vòng Ngực</h6>
+            <p class="x-small text-muted mb-0">Đo quanh phần đầy nhất của ngực, giữ thước dây nằm ngang bình thường.</p>
+          </div>
+          <div class="col-md-4">
+            <h6 class="fw-bold small">Vòng Eo</h6>
+            <p class="x-small text-muted mb-0">Đo quanh phần hẹp nhất của thắt lưng (thường là nơi cơ thể uốn cong).</p>
+          </div>
+          <div class="col-md-4">
+            <h6 class="fw-bold small">Vòng Hông</h6>
+            <p class="x-small text-muted mb-0">Khép hai chân lại và đo quanh phần đầy nhất của hông.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Women's Section -->
+      <div id="women-size-section" class="size-section mb-5">
+        <h5 class="fw-bold mb-4 d-flex align-items-center gap-3">
+          <span class="badge bg-danger">01</span> Thời Trang Nữ
+        </h5>
+        <div class="table-responsive shadow-sm rounded-4 border">
+          <table class="table table-hover align-middle mb-0">
+            <thead class="bg-dark text-white">
+              <tr class="small">
+                <th class="ps-4">Size</th>
+                <th>Ngực (cm)</th>
+                <th>Eo (cm)</th>
+                <th>Hông (cm)</th>
+                <th>Cao (cm)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="ps-4 fw-bold">S</td>
+                <td>82 - 86</td>
+                <td>64 - 68</td>
+                <td>88 - 92</td>
+                <td>150 - 158</td>
+              </tr>
+              <tr>
+                <td class="ps-4 fw-bold">M</td>
+                <td>86 - 90</td>
+                <td>68 - 72</td>
+                <td>92 - 96</td>
+                <td>158 - 165</td>
+              </tr>
+              <tr>
+                <td class="ps-4 fw-bold">L</td>
+                <td>90 - 94</td>
+                <td>72 - 76</td>
+                <td>96 - 100</td>
+                <td>165 - 170</td>
+              </tr>
+              <tr class="border-0">
+                <td class="ps-4 fw-bold border-0">XL</td>
+                <td class="border-0">94 - 100</td>
+                <td class="border-0">76 - 82</td>
+                <td class="border-0">100 - 106</td>
+                <td class="border-0">170 - 175</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Men's Section -->
+      <div id="men-size-section" class="size-section mb-5">
+        <h5 class="fw-bold mb-4 d-flex align-items-center gap-3">
+          <span class="badge bg-primary">02</span> Thời Trang Nam
+        </h5>
+        <div class="table-responsive shadow-sm rounded-4 border">
+          <table class="table table-hover align-middle mb-0">
+            <thead class="bg-dark text-white">
+              <tr class="small">
+                <th class="ps-4">Size</th>
+                <th>Ngực (cm)</th>
+                <th>Eo (cm)</th>
+                <th>Cân nặng (kg)</th>
+                <th>Cao (cm)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="ps-4 fw-bold">S</td>
+                <td>88 - 92</td>
+                <td>76 - 80</td>
+                <td>50 - 58</td>
+                <td>160 - 165</td>
+              </tr>
+              <tr>
+                <td class="ps-4 fw-bold">M</td>
+                <td>92 - 96</td>
+                <td>80 - 84</td>
+                <td>58 - 65</td>
+                <td>165 - 170</td>
+              </tr>
+              <tr>
+                <td class="ps-4 fw-bold">L</td>
+                <td>96 - 100</td>
+                <td>84 - 88</td>
+                <td>65 - 75</td>
+                <td>170 - 175</td>
+              </tr>
+              <tr class="border-0">
+                <td class="ps-4 fw-bold border-0">XL</td>
+                <td class="border-0">100 - 106</td>
+                <td class="border-0">88 - 94</td>
+                <td class="border-0">75 - 85</td>
+                <td class="border-0">175 - 185</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="alert alert-info border-0 rounded-4 p-4 mt-5">
+        <h6 class="fw-bold"><i class="fa-solid fa-circle-info"></i> LƯU Ý:</h6>
+        <p class="mb-0 x-small">Dữ liệu trên chỉ mang tính chất tham khảo. Trường hợp số đo của bạn nằm giữa 2 size, Aura Fashion khuyên bạn nên chọn **size lớn hơn** để có cảm giác thoải mái nhất hoặc liên hệ đội ngũ tư vấn của chúng tôi qua Chatbox/Zalo.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-footer></app-footer>
+

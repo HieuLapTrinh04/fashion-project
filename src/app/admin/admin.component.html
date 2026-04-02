@@ -1,32 +1,142 @@
-<div class="admin-container">
-  <!-- CHỈ HIỆN DASHBOARD KHI URL LÀ /admin -->
-  <div *ngIf="router.url === '/admin'">
-    <h1 class="title">ADMIN DASHBOARD</h1>
+<div class="admin-layout">
+  <!-- Sidebar -->
+  <aside class="admin-sidebar">
+    <div class="sidebar-header">
+      <h2 class="brand">Aura <span>Admin</span></h2>
+    </div>
+    <nav class="sidebar-nav">
+      <a
+        routerLink="/admin"
+        [routerLinkActiveOptions]="{ exact: true }"
+        routerLinkActive="active"
+        class="nav-item"
+      >
+        <i class="fa-solid fa-gauge-high"></i>
+        <span>Tổng Quan</span>
+      </a>
+      <a routerLink="products" routerLinkActive="active" class="nav-item">
+        <i class="fa-solid fa-box"></i>
+        <span>Sản Phẩm</span>
+      </a>
+      <a routerLink="orders" routerLinkActive="active" class="nav-item">
+        <i class="fa-solid fa-receipt"></i>
+        <span>Đơn Hàng</span>
+      </a>
+      <a routerLink="users" routerLinkActive="active" class="nav-item">
+        <i class="fa-solid fa-users-gear"></i>
+        <span>Người Dùng</span>
+      </a>
+      <div class="nav-divider"></div>
+      <a routerLink="/" class="nav-item back-home">
+        <i class="fa-solid fa-arrow-left"></i>
+        <span>Về Cửa Hàng</span>
+      </a>
+      <a (click)="logout()" class="nav-item logout-btn" style="cursor: pointer; color: #ffbcbc !important;">
+        <i class="fa-solid fa-right-from-bracket"></i>
+        <span>Đăng Xuất</span>
+      </a>
+    </nav>
+  </aside>
 
-    <div class="admin-cards">
-      <div class="card">
-        <i class="fa fa-cube"></i>
-        <h3>Sản phẩm</h3>
-        <p>Thêm, sửa, xóa sản phẩm</p>
-        <button routerLink="products">Quản lý</button>
+  <!-- Main Content -->
+  <main class="admin-main">
+    <div class="admin-content-inner">
+      <!-- DASHBOARD OVERVIEW (Only on /admin root) -->
+      <div *ngIf="router.url === '/admin'">
+        <header class="content-header mb-5">
+          <h1 class="display-6 fw-bold">Bảng Điều Khiển</h1>
+          <p class="text-muted">Chào mừng trở lại, đây là hiệu suất cửa hàng của bạn hôm nay.</p>
+        </header>
+
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="icon-wrap revenue">
+              <i class="fa-solid fa-dollar-sign"></i>
+            </div>
+            <div class="stat-info">
+              <span class="label">Tổng Doanh Thu</span>
+              <h3 class="value">{{ dashStats.revenue | number:'1.0-0' }} VNĐ</h3>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="icon-wrap orders">
+              <i class="fa-solid fa-cart-shopping"></i>
+            </div>
+            <div class="stat-info">
+              <span class="label">Tổng Đơn Hàng</span>
+              <h3 class="value">{{ dashStats.orders }}</h3>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="icon-wrap products">
+              <i class="fa-solid fa-shirt"></i>
+            </div>
+            <div class="stat-info">
+              <span class="label">Sản Phẩm</span>
+              <h3 class="value">{{ dashStats.products }}</h3>
+            </div>
+          </div>
+
+          <div class="stat-card" data-aos="zoom-in" data-aos-delay="400">
+            <div class="icon-wrap users">
+              <i class="fa-solid fa-user-group"></i>
+            </div>
+            <div class="stat-info">
+              <span class="label">Khách Hàng</span>
+              <h3 class="value">{{ dashStats.users }}</h3>
+            </div>
+          </div>
+        </div>
+
+        <!-- Analytics Section -->
+        <div class="row g-4 mt-2">
+          <!-- Revenue Chart -->
+          <div class="col-lg-8">
+            <div class="card border-0 shadow-sm rounded-4 p-4 h-100">
+              <div class="d-flex justify-content-between align-items-center mb-4">
+                <h5 class="fw-bold mb-0">Tăng Trưởng Doanh Thu (7 ngày qua)</h5>
+                <i class="fa-solid fa-chart-line text-primary"></i>
+              </div>
+              <div class="chart-container" style="position: relative; height:300px; width:100%">
+                <canvas #revenueChart></canvas>
+              </div>
+            </div>
+          </div>
+
+          <!-- Top Products -->
+          <div class="col-lg-4">
+            <div class="card border-0 shadow-sm rounded-4 p-4 h-100">
+              <div class="d-flex justify-content-between align-items-center mb-4">
+                <h5 class="fw-bold mb-0">Sản Phẩm Bán Chạy</h5>
+                <i class="fa-solid fa-fire text-danger"></i>
+              </div>
+              <div class="top-products-list">
+                <div *ngFor="let p of dashStats.bestSellers" class="d-flex align-items-center mb-3 pb-3 border-bottom-last-none">
+                  <img [src]="p.image" class="rounded-3 me-3" style="width: 45px; height: 45px; object-fit: cover;">
+                  <div class="flex-grow-1 overflow-hidden">
+                    <h6 class="fw-bold mb-0 text-truncate" style="font-size: 0.9rem;">{{ p.name }}</h6>
+                    <div class="d-flex justify-content-between">
+                       <span class="text-muted small">Đã bán: {{ p.sold }}</span>
+                       <span class="text-primary fw-bold small">{{ p.income | number:'1.0-0' }}đ</span>
+                    </div>
+                  </div>
+                </div>
+                <div *ngIf="dashStats.bestSellers.length === 0" class="text-center py-5 text-muted small">
+                   Chưa có dữ liệu bán hàng.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
 
-      <div class="card">
-        <i class="fa fa-users"></i>
-        <h3>Người dùng</h3>
-        <p>Phân quyền user / admin</p>
-        <button routerLink="users">Quản lý</button>
-      </div>
-
-      <div class="card">
-        <i class="fa fa-shopping-cart"></i>
-        <h3>Đơn hàng</h3>
-        <p>Theo dõi & xử lý đơn hàng</p>
-        <button routerLink="orders">Quản lý</button>
+      <!-- CHILD ROUTES -->
+      <div class="route-container" [class.p-0]="router.url === '/admin'">
+        <router-outlet></router-outlet>
       </div>
     </div>
-  </div>
-
-  <!-- ROUTE CON HIỆN Ở ĐÂY -->
-  <router-outlet></router-outlet>
+  </main>
 </div>

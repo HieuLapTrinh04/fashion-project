@@ -1,0 +1,88 @@
+.gift-sets-container {
+    text-align: center;
+    color: black;
+    padding: 20px;
+  }
+  .add-cart {
+    width: 150px;
+  }
+  .title {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-style: normal;
+    text-align: center;
+    font-size: 40px;
+    margin-top: 10px;
+    margin-bottom: 30px;
+    color: #007bff;
+  }
+  .img-title {
+    width: 140px;
+    height: 110px;
+    margin: auto;
+    margin-top: 70px;
+  }
+  .product-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(200px, 1fr));
+    gap: 20px;
+  }
+  .fashion-holiday {
+    margin-bottom: 30px;
+    position: relative;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .fashion-holiday img {
+    transition: transform 0.3s ease;
+  }
+  .btn:hover {
+    background-color: green;
+    border: 1px solid green;
+  }
+  .fashion-holiday:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+  }
+  .fashion-holiday:hover img {
+    transform: scale(1.05);
+  }
+  .product-card {
+    background: linear-gradient(to right, #FF5858, #F09819);
+    /* background-color: #FF5858; */
+    border-radius: 8px;
+    overflow: hidden;
+    color: #000;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    padding: 10px;
+  }
+  
+  .product-image {
+    width: 100%;
+    height: auto;
+  }
+  
+  .product-name {
+    font-size: 1rem;
+    margin: 10px 0;
+  }
+  
+  .product-price {
+    font-size: 1rem;
+  }
+  
+  .old-price {
+    text-decoration: line-through;
+    color: rgb(64, 63, 63);
+    font-weight: 600;
+  }
+  
+  .new-price {
+    color: #ab0e0b;
+    font-weight: bold;
+    font-size: 20px;
+  }
+  .img-banner {
+    width: 100%;
+    height: 550px;
+  }

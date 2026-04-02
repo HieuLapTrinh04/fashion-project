@@ -1,0 +1,116 @@
+<app-header></app-header>
+
+<main class="policy-page py-5">
+  <div class="container mt-4 mb-5">
+    <div class="row">
+      <!-- Sidebar / Navigation -->
+      <div class="col-lg-3 d-none d-lg-block">
+        <div class="sticky-top" style="top: 100px;">
+          <h5 class="fw-bold mb-4">Mục lục</h5>
+          <ul class="list-unstyled policy-nav">
+            <li class="mb-3">
+              <a routerLink="/policy/return" [class.active]="policyType === 'return'" class="text-decoration-none text-dark d-flex align-items-center gap-2">
+                <i class="fa-solid fa-rotate-left small opacity-50"></i> Đổi Trả & Hoàn Tiền
+              </a>
+            </li>
+            <li class="mb-3">
+              <a routerLink="/policy/privacy" [class.active]="policyType === 'privacy'" class="text-decoration-none text-dark d-flex align-items-center gap-2">
+                <i class="fa-solid fa-shield-halved small opacity-50"></i> Bảo Mật Thông Tin
+              </a>
+            </li>
+            <li class="mb-3">
+              <a routerLink="/policy/shipping" [class.active]="policyType === 'shipping'" class="text-decoration-none text-dark d-flex align-items-center gap-2">
+                <i class="fa-solid fa-truck-fast small opacity-50"></i> Vận Chuyển & Kiểm Hàng
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Policy Content -->
+      <div class="col-lg-9">
+        <article class="policy-card bg-white p-4 p-md-5 rounded-4 shadow-sm" data-aos="fade-up">
+          <header class="mb-5">
+            <h2 class="fw-bold text-primary mb-3">{{ policyTitle }}</h2>
+            <div class="text-muted small">
+              <i class="fa-regular fa-calendar-check me-2"></i> Cập nhật lần cuối: {{ policyLastUpdated }}
+            </div>
+          </header>
+
+          <!-- RETURN POLICY -->
+          <div *ngIf="policyType === 'return'" class="policy-body">
+            <section class="mb-5">
+              <h5 class="fw-bold mb-3"><i class="fa-solid fa-circle-check text-success me-2"></i> 1. Điều Kiện Đổi Trả</h5>
+              <p>Sản phẩm của Aura Fashion sẽ được chấp nhận đổi trả nếu đáp ứng đủ các điều kiện sau:</p>
+              <ul>
+                <li>Sản phẩm còn nguyên tem mác, chưa qua sử dụng, chưa qua giặt là.</li>
+                <li>Sản phẩm bị lỗi do nhà sản xuất (đường may, vải lỗi, phai màu...).</li>
+                <li>Thời gian yêu cầu đổi trả trong vòng <strong>7 ngày</strong> kể từ ngày nhận hàng.</li>
+              </ul>
+            </section>
+
+            <section class="mb-5">
+              <h5 class="fw-bold mb-3"><i class="fa-solid fa-circle-check text-success me-2"></i> 2. Các Trường Hợp Không Hỗ Trợ</h5>
+              <ul>
+                <li>Quá thời hạn 7 ngày theo quy định.</li>
+                <li>Sản phẩm đã qua sử dụng, giặt xả hoặc bị hư hỏng do tác động từ bên ngoài.</li>
+                <li>Hàng mua trong các chương trình xả kho hoặc giảm giá trên 50%.</li>
+              </ul>
+            </section>
+
+            <section>
+              <h5 class="fw-bold mb-3"><i class="fa-solid fa-circle-check text-success me-2"></i> 3. Quy Trình Hoàn Tiền</h5>
+              <p>Sau khi nhận được sản phẩm hoàn trả, Aura Fashion sẽ kiểm tra và thực hiện hoàn tiền qua tài khoản ngân hàng trong vòng 3-5 ngày làm việc.</p>
+            </section>
+          </div>
+
+          <!-- PRIVACY POLICY -->
+          <div *ngIf="policyType === 'privacy'" class="policy-body">
+            <section class="mb-5">
+              <h5 class="fw-bold mb-3">1. Mục Đích Thu Thập Thông Tin</h5>
+              <p>Chúng tôi thu thập thông tin khách hàng (Tên, Số điện thoại, Email, Địa chỉ) nhằm mục đích:</p>
+              <ul>
+                <li>Xử lý đơn hàng và giao hàng nhanh chóng.</li>
+                <li>Cung cấp mã giảm giá và thông báo ưu đãi từ Aura Fashion.</li>
+                <li>Cải thiện chất lượng dịch vụ và hỗ trợ khách hàng tốt nhất.</li>
+              </ul>
+            </section>
+
+            <section class="mb-5">
+              <h5 class="fw-bold mb-3">2. Cam Kết Bảo Mật</h5>
+              <p>Aura Fashion cam kết tuyệt đối không bán, chia sẻ hay trao đổi thông tin cá nhân của khách hàng cho bất kỳ bên thứ ba nào vì mục đích thương mại.</p>
+            </section>
+
+            <section>
+              <h5 class="fw-bold mb-3">3. Quyền Lợi Của Khách Hàng</h5>
+              <p>Khách hàng có quyền yêu cầu truy cập, sửa đổi hoặc xóa bỏ thông tin cá nhân của mình trên hệ thống của Aura Fashion bất cứ lúc nào bằng cách liên hệ với chúng tôi.</p>
+            </section>
+          </div>
+
+          <!-- SHIPPING POLICY -->
+          <div *ngIf="policyType === 'shipping'" class="policy-body">
+            <section class="mb-5">
+              <h5 class="fw-bold mb-3">1. Thời Gian Giao Hàng</h5>
+              <ul>
+                <li><strong>Khu vực HCM:</strong> Từ 1 - 2 ngày làm việc.</li>
+                <li><strong>Khu vực Tỉnh/Thành khác:</strong> Từ 3 - 5 ngày làm việc.</li>
+              </ul>
+            </section>
+
+            <section class="mb-5">
+              <h5 class="fw-bold mb-3">2. Phí Vận Chuyển</h5>
+              <p>Nhằm mang lại trải nghiệm mua sắm tốt nhất, Aura Fashion áp dụng chính sách **Miễn Phí Vận Chuyển Toàn Quốc** đối với tất cả đơn hàng, không giới hạn giá trị đơn hàng tối thiểu.</p>
+            </section>
+
+            <section>
+              <h5 class="fw-bold mb-3">3. Quy Định Kiểm Hàng</h5>
+              <p>Khách hàng được quyền kiểm tra sản phẩm trước khi thanh toán (Đồng kiểm). Trong trường hợp sản phẩm không đúng mẫu hoặc bị lỗi, khách hàng có thể từ chối nhận hàng mà không mất thêm chi phí nào.</p>
+            </section>
+          </div>
+        </article>
+      </div>
+    </div>
+  </div>
+</main>
+
+<app-footer></app-footer>

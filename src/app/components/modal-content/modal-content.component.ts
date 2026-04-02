@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import Aos from 'aos';
 import { Router, RouterOutlet } from '@angular/router';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-modal-content',
@@ -32,14 +33,14 @@ export class ModalContentComponent implements OnInit{
        }
  
      getProducts() {
-       this.http.get('http://localhost:3000/products').subscribe((data: any) => {
+       this.http.get(`${environment.apiUrl}/products`).subscribe((data: any) => {
          this.products = data;
          console.log(this.products);
        });
      }
  
      postProduct() {
-       const apiUrl = 'http://localhost:3000/products'; // URL API POST
+       const apiUrl = `${environment.apiUrl}/products`; // URL API POST
            this.http.post(apiUrl, this.newProduct, {responseType: 'text'}).subscribe({
          next: (response) => {
            console.log('Sản phẩm đã được tạo:', response);
@@ -54,7 +55,7 @@ export class ModalContentComponent implements OnInit{
      }
    
      deleteProduct() {
-       const apiUrl = `http://localhost:3000/products/${this.productIdToDelete}`;
+       const apiUrl = `${environment.apiUrl}/products/${this.productIdToDelete}`;
        this.http.delete(apiUrl).subscribe({
          next: (response: any) => {
            console.log('Sản phẩm đã bị xóa:', response);
