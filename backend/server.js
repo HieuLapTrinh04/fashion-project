@@ -100,7 +100,7 @@ app.get("/products", (req, res) => {
 app.get("/admin/products", verifyToken, isAdmin, (req, res) => {
   const query = "SELECT * FROM products";
   db.query(query, (err, results) => {
-    if (err) return res.status(500).send("Lỗi khi lấy danh sách sản phẩm");
+    if (err) return res.status(500).json({ error: err.message, message: "Lỗi khi lấy danh sách sản phẩm" });
     res.json(results);
   });
 });
@@ -691,7 +691,7 @@ app.get("/admin/stats", verifyToken, isAdmin, (req, res) => {
   db.query("SELECT COUNT(*) totalusers FROM users", (err, rs1) => {
     if (err) {
       console.error("Stats Error users:", err);
-      return res.status(500).json({ message: "Lỗi đếm người dùng" });
+      return res.status(500).json({ error: err.message, message: "Lỗi đếm người dùng" });
     }
     stats.users = rs1[0].totalusers;
 
@@ -709,7 +709,7 @@ app.get("/admin/stats", verifyToken, isAdmin, (req, res) => {
         }
         stats.revenue = rs3[0].revenue || 0;
         
-        db.query("SELECT COUNT(*) totalProducts FROM Products", (err, rs4) => {
+        db.query("SELECT COUNT(*) totalProducts FROM products", (err, rs4) => {
           if (err) {
             console.error("Stats Error Products:", err);
             return res.status(500).json({ message: "Lỗi đếm sản phẩm" });
