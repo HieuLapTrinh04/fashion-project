@@ -67,7 +67,7 @@ app.post("/products", verifyToken, isAdmin, (req, res) => {
   const finalImage = image || 'https://placehold.co/600x800/f3f4f6/6b7280?text=Aura+Fashion';
 
   const sql = `
-    INSERT INTO Products (name, description, price, image, stock, category, brand, old_price, rating, sold_count, discount_percent, gender, sizes, images) 
+    INSERT INTO products (name, description, price, image, stock, category, brand, old_price, rating, sold_count, discount_percent, gender, sizes, images) 
     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
   `;
 
@@ -90,7 +90,7 @@ app.post("/products", verifyToken, isAdmin, (req, res) => {
 
 // Xem danh sách sản phẩm
 app.get("/products", (req, res) => {
-  const query = "SELECT * FROM Products";
+  const query = "SELECT * FROM products";
   db.query(query, (err, results) => {
     if (err) return res.status(500).send("Lỗi khi lấy danh sách sản phẩm");
     res.json(results);
@@ -98,7 +98,7 @@ app.get("/products", (req, res) => {
 });
 
 app.get("/admin/products", verifyToken, isAdmin, (req, res) => {
-  const query = "SELECT * FROM Products";
+  const query = "SELECT * FROM products";
   db.query(query, (err, results) => {
     if (err) return res.status(500).send("Lỗi khi lấy danh sách sản phẩm");
     res.json(results);
@@ -107,7 +107,7 @@ app.get("/admin/products", verifyToken, isAdmin, (req, res) => {
 
 // API: Lấy danh sách thời trang (Trang 1: Nữ)
 app.get("/products/pageFashion", (req, res) => {
-  const query = "SELECT * FROM Products WHERE gender LIKE ? OR (gender LIKE 'Cả hai' AND (name LIKE ? OR category LIKE ? OR description LIKE ?))";
+  const query = "SELECT * FROM products WHERE gender LIKE ? OR (gender LIKE 'Cả hai' AND (name LIKE ? OR category LIKE ? OR description LIKE ?))";
   const params = ['%Nữ%', '%váy%', '%đầm%', '%nữ%'];
   db.query(query, params, (err, results) => {
     if (err) return res.status(500).json(err);
@@ -117,7 +117,7 @@ app.get("/products/pageFashion", (req, res) => {
 
 // API: Lấy danh sách thời trang (Trang 2: Nam)
 app.get("/products/pageGiay", (req, res) => {
-  const query = "SELECT * FROM Products WHERE gender LIKE ? OR (gender LIKE 'Cả hai' AND (name LIKE ? OR category LIKE ? OR description LIKE ?))";
+  const query = "SELECT * FROM products WHERE gender LIKE ? OR (gender LIKE 'Cả hai' AND (name LIKE ? OR category LIKE ? OR description LIKE ?))";
   const params = ['%Nam%', '%nam%', '%sơ mi%', '%vest%'];
   db.query(query, params, (err, results) => {
     if (err) return res.status(500).json(err);
@@ -127,7 +127,7 @@ app.get("/products/pageGiay", (req, res) => {
 
 // API: Lấy danh sách thời trang (Trang 3: Mới)
 app.get("/products/pageAccessories", (req, res) => {
-  const query = "SELECT * FROM Products ORDER BY id DESC LIMIT 8";
+  const query = "SELECT * FROM products ORDER BY id DESC LIMIT 8";
   db.query(query, (err, results) => {
     if (err) return res.status(500).json(err);
     res.json(results);
@@ -137,7 +137,7 @@ app.get("/products/pageAccessories", (req, res) => {
 // Xóa sản phẩm
 app.delete("/products/:id", verifyToken, isAdmin, (req, res) => {
   const productId = req.params.id;
-  const query = "DELETE FROM Products WHERE id = ?";
+  const query = "DELETE FROM products WHERE id = ?";
   db.query(query, [productId], (err, result) => {
     if (err) {
       console.error("Lỗi khi xóa sản phẩm:", err);
@@ -154,7 +154,7 @@ app.delete("/products/:id", verifyToken, isAdmin, (req, res) => {
 // Lấy chi tiết 1 sản phẩm
 app.get("/products/:id", (req, res) => {
   const { id } = req.params;
-  db.query("SELECT * FROM Products WHERE id = ?", [id], (err, results) => {
+  db.query("SELECT * FROM products WHERE id = ?", [id], (err, results) => {
     if (err || results.length === 0) {
       return res.status(404).json({ message: "Không tìm thấy sản phẩm" });
     }
@@ -190,8 +190,8 @@ app.post("/checkout", verifyToken, (req, res) => {
       const orderId = orderResult.insertId;
 
       // 2. Chép tất cả các món từ Cart của user này sang order_items
-      const fetchCartQuery = "SELECT product_id, name, price, image, quantity, size FROM Cart WHERE user_id = ?";
-      db.query(fetchCartQuery, [userId], (err, cartItems) => {
+      const fetchcartQuery = "SELECT product_id, name, price, image, quantity, size FROM cart WHERE user_id = ?";
+      db.query(fetchcartQuery, [userId], (err, cartItems) => {
         if (err || cartItems.length === 0) {
           return db.rollback(() => res.status(500).json({ message: "Không tìm thấy sản phẩm trong giỏ để thanh toán!" }));
         }
@@ -207,7 +207,7 @@ app.post("/checkout", verifyToken, (req, res) => {
           }
 
           // 3. Xóa giỏ hàng của người dùng
-          db.query("DELETE FROM Cart WHERE user_id = ?", [userId], (err) => {
+          db.query("DELETE FROM cart WHERE user_id = ?", [userId], (err) => {
             if (err) {
               return db.rollback(() => res.status(500).json({ message: "Lỗi khi dọn dẹp giỏ hàng!" }));
             }
@@ -306,7 +306,7 @@ app.get("/cart", verifyToken, (req, res) => {
   const userId = req.user.id;
 
   db.query(
-    "SELECT * FROM Cart WHERE user_id = ?",
+    "SELECT * FROM cart WHERE user_id = ?",
     [userId],
     (err, results) => {
       if (err) {
@@ -324,7 +324,7 @@ app.post("/cart", verifyToken, (req, res) => {
   const userId = req.user.id; 
 
   // 1️⃣ Kiểm tra sản phẩm có tồn tại không
-  const checkProductQuery = "SELECT id FROM Products WHERE id = ?";
+  const checkProductQuery = "SELECT id FROM products WHERE id = ?";
   db.query(checkProductQuery, [product_id], (err, results) => {
     if (err) {
       return res.status(500).json({ message: "Lỗi kiểm tra sản phẩm" });
@@ -335,9 +335,9 @@ app.post("/cart", verifyToken, (req, res) => {
     }
 
     // 2️⃣ Kiểm tra sản phẩm có cùng size đã có trong giỏ hàng của USER CHƯA
-    const checkCartQuery =
-      "SELECT id, quantity FROM Cart WHERE product_id = ? AND user_id = ? AND size = ?";
-    db.query(checkCartQuery, [product_id, userId, size || 'M'], (err, cartResults) => {
+    const checkcartQuery =
+      "SELECT id, quantity FROM cart WHERE product_id = ? AND user_id = ? AND size = ?";
+    db.query(checkcartQuery, [product_id, userId, size || 'M'], (err, cartResults) => {
       if (err) {
         return res.status(500).json({ message: "Lỗi kiểm tra giỏ hàng" });
       }
@@ -345,10 +345,10 @@ app.post("/cart", verifyToken, (req, res) => {
       if (cartResults.length > 0) {
         // 3️⃣ Nếu đã có → cộng số lượng
         const updateQuery =
-          "UPDATE Cart SET quantity = quantity + ? WHERE id = ?";
+          "UPDATE cart SET quantity = quantity + ? WHERE id = ?";
         db.query(updateQuery, [quantity, cartResults[0].id], (err) => {
           if (err) {
-            console.error("SQL Error (Update Cart):", err.message);
+            console.error("SQL Error (Update cart):", err.message);
             return res.status(500).json({ message: "Lỗi cập nhật giỏ hàng" });
           }
           res.json({ message: "Cập nhật số lượng thành công!" });
@@ -356,7 +356,7 @@ app.post("/cart", verifyToken, (req, res) => {
       } else {
         // 4️⃣ Nếu chưa có → thêm mới
         const insertQuery = `
-          INSERT INTO Cart (user_id, product_id, name, price, image, quantity, size)
+          INSERT INTO cart (user_id, product_id, name, price, image, quantity, size)
           VALUES (?, ?, ?, ?, ?, ?, ?)
         `;
         db.query(
@@ -372,7 +372,7 @@ app.post("/cart", verifyToken, (req, res) => {
           ],
           (err) => {
             if (err) {
-              console.error("SQL Error (Insert Cart):", err.message);
+              console.error("SQL Error (Insert cart):", err.message);
               return res.status(500).json({ message: "Lỗi thêm vào giỏ hàng" });
             }
             res.status(201).json({ message: "Thêm vào giỏ hàng thành công!" });
@@ -388,7 +388,7 @@ app.post("/cart", verifyToken, (req, res) => {
 app.delete("/cart/:id", verifyToken, (req, res) => {
   const { id } = req.params;
 
-  const deleteQuery = "DELETE FROM Cart WHERE id = ?";
+  const deleteQuery = "DELETE FROM cart WHERE id = ?";
   db.query(deleteQuery, [id], (err) => {
     if (err) {
       return res.status(500).json({ message: "Lỗi xóa sản phẩm!", error: err });
@@ -402,7 +402,7 @@ app.put("/cart/:id", verifyToken, (req, res) => {
   const { id } = req.params;
   const { quantity } = req.body;
 
-  const updateQuery = "UPDATE Cart SET quantity = ? WHERE id = ?";
+  const updateQuery = "UPDATE cart SET quantity = ? WHERE id = ?";
   db.query(updateQuery, [quantity, id], (err) => {
     if (err) {
       return res
@@ -420,7 +420,7 @@ app.post("/register", async (req, res) => {
   const hashedPassword = await bcrypt.hash(password, 10);
 
   const query =
-    "INSERT INTO Users (username, email, password, role) VALUES (?, ?, ?, ?)";
+    "INSERT INTO users (username, email, password, role) VALUES (?, ?, ?, ?)";
   db.query(query, [username, email, hashedPassword, role || "user"], (err) => {
     if (err) return res.status(500).send("Lỗi");
     res.send("OK");
@@ -431,7 +431,7 @@ app.post("/register", async (req, res) => {
 app.post("/login", (req, res) => {
   const { email, password } = req.body;
 
-  const query = "SELECT * FROM Users WHERE email = ?";
+  const query = "SELECT * FROM users WHERE email = ?";
   db.query(query, [email], async (err, results) => {
     if (err) {
       console.error("Lỗi server:", err);
@@ -583,7 +583,7 @@ app.put("/products/:id", verifyToken, isAdmin, (req, res) => {
   const { id } = req.params;
 
   const sql = `
-    UPDATE Products 
+    UPDATE products 
     SET name=?, description=?, price=?, stock=?, image=?, category=?, brand=?, old_price=?, rating=?, sold_count=?, discount_percent=?, gender=?, sizes=?, images=?
     WHERE id=?
   `;
@@ -674,7 +674,7 @@ app.get("/products/search", (req, res) => {
   const { q } = req.query;
 
   db.query(
-    "SELECT * FROM Products WHERE name LIKE ?",
+    "SELECT * FROM products WHERE name LIKE ?",
     [`%${q}%`],
     (err, results) => {
       if (err) return res.status(500).send("Lỗi tìm kiếm");
@@ -688,12 +688,12 @@ app.get("/admin/stats", verifyToken, isAdmin, (req, res) => {
   const stats = {};
 
   // 1. Tổng kết số lượng cơ bản
-  db.query("SELECT COUNT(*) totalUsers FROM Users", (err, rs1) => {
+  db.query("SELECT COUNT(*) totalusers FROM users", (err, rs1) => {
     if (err) {
-      console.error("Stats Error Users:", err);
+      console.error("Stats Error users:", err);
       return res.status(500).json({ message: "Lỗi đếm người dùng" });
     }
-    stats.users = rs1[0].totalUsers;
+    stats.users = rs1[0].totalusers;
 
     db.query("SELECT COUNT(*) totalOrders FROM orders", (err, rs2) => {
       if (err) {
