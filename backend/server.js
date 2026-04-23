@@ -203,7 +203,11 @@ app.post("/checkout", verifyToken, (req, res) => {
 
         db.query(insertItemsQuery, [values], (err) => {
           if (err) {
-            return db.rollback(() => res.status(500).json({ message: "Lỗi khi lưu chi tiết sản phẩm đơn hàng!" }));
+            console.error("SQL Error (order_items):", err.message);
+            return db.rollback(() => res.status(500).json({ 
+              message: "Lỗi khi lưu chi tiết sản phẩm đơn hàng!", 
+              error: err.message 
+            }));
           }
 
           // 3. Xóa giỏ hàng của người dùng
